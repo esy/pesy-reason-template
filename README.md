@@ -2,7 +2,7 @@
 
 A project which demonstrates a Reason workflow with [Esy][].
 
-[esy]: https://github.com/esy-ocaml/esy
+[esy]: https://github.com/esy/esy
 
 ## Usage
 
