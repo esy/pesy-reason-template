@@ -37,7 +37,9 @@ And test compiled executable (runs `scripts.tests` specified in
 Documentation for the libraries in the project can be generated with:
 
     % esy doc
-    % esy open '#{self.target_dir}/default/_doc/_html/index.html'
+    % open-cli `esy echo '#{self.target_dir}/default/_doc/_html/index.html'`
+    
+This assumes you have a command like [open-cli](https://github.com/sindresorhus/open-cli) installed on your system.
 
 Shell into environment:
 
