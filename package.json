@@ -69,9 +69,6 @@
     "@opam/merlin": "*",
     "ocaml": "~4.7.0",
     "@opam/odoc": "*",
-    "pesy": "*"
-  },
-  "resolutions": {
-    "pesy": "esy/pesy#af6289b158c117e29152198374e79513b467c55f"
+    "pesy": "0.1.0-alpha.1"
   }
 }
