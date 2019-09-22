@@ -16,9 +16,9 @@
   },
   "buildDirs": {
     "test": {
-      "require": [
-        "<PUBLIC_LIB_NAME>",
-        "rely.lib"
+      "imports": [
+        "Library = require('<PUBLIC_LIB_NAME>')",
+        "Rely = require('rely/lib')"
       ],
       "flags": [
         "-linkall",
@@ -28,22 +28,22 @@
       ]
     },
     "testExe": {
-      "require": [
-        "<TEST_LIB_NAME>"
+      "imports": [
+        "Test = require('<TEST_LIB_NAME>')"
       ],
       "bin": {
         "Run<PACKAGE_NAME_UPPER_CAMEL>Tests.exe": "Run<PACKAGE_NAME_UPPER_CAMEL>Tests.re"
       }
     },
     "library": {
-      "require": [
-        "console.lib",
-        "pastel.lib"
+      "imports": [
+        "Console = require('console/lib')",
+        "Pastel = require('pastel/lib')"
       ]
     },
     "bin": {
-      "require": [
-        "<PUBLIC_LIB_NAME>"
+      "imports": [
+        "Library = require('<PUBLIC_LIB_NAME>')"
       ],
       "bin": {
         "<PACKAGE_NAME_UPPER_CAMEL>App.exe": "<PACKAGE_NAME_UPPER_CAMEL>App.re"
@@ -69,9 +69,6 @@
     "@opam/merlin": "*",
     "ocaml": "~4.7.0",
     "@opam/odoc": "*",
-    "pesy": "*"
-  },
-  "resolutions": {
-    "pesy": "esy/pesy#3d8a18385e07fa11daabe811814fae3f869ad355"
+    "@pesy/esy-pesy": "0.1.0-alpha.2"
   }
 }
