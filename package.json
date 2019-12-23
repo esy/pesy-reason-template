@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "description": "Starter Reason Esy Pesy Project",
   "esy": {
-    "build": "refmterr dune build -p #{self.name}",
+    "build": "dune build -p #{self.name}",
+    "buildDev": "refmterr dune build",
     "NOTE": "Optional release Section. Customizes result of `esy release`",
     "release": {
       "releasedBinaries": [
@@ -62,10 +63,10 @@
     "@reason-native/pastel": "*",
     "@reason-native/rely": "*",
     "@esy-ocaml/reason": "*",
-    "refmterr": "*",
     "ocaml": "~4.7.0"
   },
   "devDependencies": {
+    "refmterr": "*",
     "@opam/merlin": "*",
     "ocaml": "~4.7.0",
     "@opam/odoc": "*",
