@@ -52,7 +52,7 @@ stages:
       - template: .ci/utils/use-esy.yml
       - script: "npm install -g pesy@next"
         displayName: "install pesy"
-      - script: mkdir $(Pipeline.Workspace)/hello-reason
+      - script: mkdir $(Pipeline.Workspace)\hello-reason
         displayName: "Create project folder"
       - script: "pesy --template=esy/pesy-reason-template#$(Build.SourceBranchName)"
         displayName: "Initialize pesy template"
