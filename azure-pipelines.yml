@@ -20,7 +20,7 @@ stages:
         displayName: "install pesy"
       - script: mkdir $(Pipeline.Workspace)/hello-reason
         displayName: "Create project folder"
-      - script: "pesy --template=esy/pesy-reason-template#$(Build.SourceBranchName)"
+      - script: "pesy --template=esy/pesy-reason-template#$(Build.SourceBranch)"
         displayName: "Initialize pesy template"
         workingDirectory: $(Pipeline.Workspace)/hello-reason
       - script: "esy test"
@@ -37,7 +37,7 @@ stages:
         displayName: "install pesy"
       - script: mkdir $(Pipeline.Workspace)/hello-reason
         displayName: "Create project folder"
-      - script: "pesy --template=esy/pesy-reason-template#$(Build.SourceBranchName)"
+      - script: "pesy --template=esy/pesy-reason-template#$(Build.SourceBranch)"
         displayName: "Initialize pesy template"
         workingDirectory: $(Pipeline.Workspace)/hello-reason
       - script: "esy test"
@@ -54,7 +54,7 @@ stages:
         displayName: "install pesy"
       - script: mkdir $(Pipeline.Workspace)\hello-reason
         displayName: "Create project folder"
-      - script: "pesy --template=esy/pesy-reason-template#$(Build.SourceBranchName)"
+      - script: "pesy --template=esy/pesy-reason-template#$(Build.SourceBranch)"
         displayName: "Initialize pesy template"
         workingDirectory: $(Pipeline.Workspace)\hello-reason
       - script: "esy test"
