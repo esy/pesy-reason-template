@@ -56,7 +56,7 @@ stages:
         displayName: "Create project folder"
       - script: "pesy --template=esy/pesy-reason-template#$(Build.SourceBranchName)"
         displayName: "Initialize pesy template"
-        workingDirectory: $(Pipeline.Workspace)/hello-reason
+        workingDirectory: $(Pipeline.Workspace)\hello-reason
       - script: "esy test"
         displayName: "Run tests"
-        workingDirectory: $(Pipeline.Workspace)/hello-reason
+        workingDirectory: $(Pipeline.Workspace)\hello-reason
