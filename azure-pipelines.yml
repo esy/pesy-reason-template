@@ -60,3 +60,13 @@ stages:
       - script: "esy test"
         displayName: "Run tests"
         workingDirectory: $(Pipeline.Workspace)\hello-reason
+        
+schedules:
+- cron: "0 */12 * * *"
+  displayName: CRON build - twice a day
+  branches:
+    include:
+    - master
+    - releases/*
+    exclude:
+    - releases/ancient/*
