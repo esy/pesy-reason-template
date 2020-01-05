@@ -4,7 +4,7 @@
   "description": "Starter Reason Esy Pesy Project",
   "esy": {
     "build": "dune build -p #{self.name}",
-    "buildDev": "refmterr dune build",
+    "buildDev": "refmterr dune build -p #{self.name}",
     "NOTE": "Optional release Section. Customizes result of `esy release`",
     "release": {
       "releasedBinaries": [
