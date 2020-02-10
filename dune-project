@@ -1,2 +1,2 @@
-(lang dune 1.2)
+(lang dune 1.7)
 (name <PACKAGE_NAME_FULL>)
