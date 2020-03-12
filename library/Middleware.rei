@@ -1,2 +1,2 @@
 /** Logs the time a request takes */
-let logger: Morph.Server.middleware;
+let logger: Morph.Server.middleware('body);

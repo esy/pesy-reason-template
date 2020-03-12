@@ -1,4 +1,4 @@
-let logger = (service, request: Morph.Request.t) => {
+let logger = (service, request: Morph.Request.t('body)) => {
   open Lwt.Infix;
   let start_request = Mtime_clock.elapsed();
   service(request)

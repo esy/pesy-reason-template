@@ -1,4 +1,4 @@
 (lang dune 1.11)
-(name <PACKAGE_NAME_FULL>)
+(name morph_pesy_template)
 
 (using fmt 1.2)

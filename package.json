@@ -1,5 +1,5 @@
 {
-  "name": "<PACKAGE_NAME_FULL>",
+  "name": "morph_pesy_template",
   "version": "0.1.0",
   "description": "Starter Reason Morph Esy Pesy Project",
   "esy": {
@@ -11,7 +11,7 @@
   "buildDirs": {
     "test": {
       "imports": [
-        "Library = require('<PUBLIC_LIB_NAME>')",
+        "Library = require('./library')",
         "Rely = require('rely/lib')"
       ],
       "flags": [
@@ -23,15 +23,14 @@
     },
     "testExe": {
       "imports": [
-        "Test = require('<TEST_LIB_NAME>')"
+        "Test = require('./test')"
       ],
       "bin": {
-        "Run<PACKAGE_NAME_UPPER_CAMEL>Tests.exe": "Run<PACKAGE_NAME_UPPER_CAMEL>Tests.re"
+        "RunMorphPesyTemplateTests.exe": "RunMorphPesyTemplateTests.re"
       }
     },
     "library": {
       "imports": [
-        "Opium_core = require('opium_core')",
         "Morph = require('morph')",
         "Mtime = require('mtime')",
         "Mtime_clock = require('mtime/clock/os')",
@@ -41,7 +40,7 @@
     },
     "bin": {
       "imports": [
-        "Library = require('<PUBLIC_LIB_NAME>')",
+        "Library = require('./library')",
         "Morph = require('morph')",
         "Morph_server_http = require('morph_server_http')",
         "Logs = require('logs')",
@@ -51,13 +50,13 @@
         "Uri = require('uri')"
       ],
       "bin": {
-        "<PACKAGE_NAME_UPPER_CAMEL>App.exe": "<PACKAGE_NAME_UPPER_CAMEL>App.re"
+        "MorphPesyTemplateApp.exe": "MorphPesyTemplateApp.re"
       }
     }
   },
   "scripts": {
-    "start": "esy x <PACKAGE_NAME_UPPER_CAMEL>App.exe",
-    "test": "esy x Run<PACKAGE_NAME_UPPER_CAMEL>Tests.exe",
+    "start": "esy x MorphPesyTemplateApp.exe",
+    "test": "esy x RunMorphPesyTemplateTests.exe",
     "format": "dune build @fmt --auto-promote --root .",
     "doc": "esy dune build @doc",
     "doc-path": "esy echo #{self.target_dir}/default/_doc/_html/index.html"
@@ -66,25 +65,18 @@
     "@opam/dune": "*",
     "@reason-native/rely": "*",
     "@esy-ocaml/reason": "*",
-    "refmterr": "*",
-    "ocaml": "~4.7.0",
-    "@reason-native-web/morph": "*",
-    "@reason-native-web/morph_server": "*",
-    "@reason-native-web/morph_server_http": "*",
+    "ocaml": "~4.8.0",
+    "@reason-native-web/morph": "^0.3.0",
+    "@reason-native-web/morph_base": "^0.3.0",
+    "@reason-native-web/morph_server_http": "^0.3.0",
     "@opam/mtime": "*",
     "@opam/uri": "*"
   },
   "devDependencies": {
     "@opam/merlin": "*",
-    "ocaml": "~4.7.0",
+    "refmterr": "*",
+    "ocaml": "~4.8.0",
     "@opam/odoc": "*",
-    "@pesy/esy-pesy": "0.1.0-alpha.3"
-  },
-  "resolutions": {
-    "@pesy/esy-pesy": "esy/pesy#2416a5e9f874f334120bec46776e0eece06d7a45",
-    "@opam/httpaf-lwt-unix": "anmonteiro/httpaf:httpaf-lwt-unix.opam#76b461bed081c64908fb1fdfa076ab2c936ca622",
-    "@opam/httpaf-lwt": "anmonteiro/httpaf:httpaf-lwt.opam#76b461bed081c64908fb1fdfa076ab2c936ca622",
-    "@opam/httpaf": "anmonteiro/httpaf:httpaf.opam#76b461bed081c64908fb1fdfa076ab2c936ca622",
-    "@opam/opium_core": "rgrinberg/opium:opium_core.opam#287b83f85bcf6c75d503b1edab77c7ec524f9090"
+    "@pesy/esy-pesy": "0.1.0-alpha.7"
   }
 }

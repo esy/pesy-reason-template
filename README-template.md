@@ -1,4 +1,4 @@
-# <PACKAGE_NAME_FULL>
+# morph_pesy_template
 
 A project which demonstrates a Reason workflow with [Esy][].
 
