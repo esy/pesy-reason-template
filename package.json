@@ -4,7 +4,7 @@
   "description": "Starter Reason Esy Pesy Project",
   "esy": {
     "build": "dune build -p #{self.name}",
-    "buildDev": "refmterr dune build -p #{self.name}",
+    "buildDev": "pesy build",
     "NOTE": "Optional release Section. Customizes result of `esy release`",
     "release": {
       "releasedBinaries": [
@@ -70,6 +70,6 @@
     "@opam/merlin": "*",
     "ocaml": "~4.7.0",
     "@opam/odoc": "*",
-    "@pesy/esy-pesy": "0.1.0-alpha.2"
+    "@pesy/esy-pesy": "0.1.0-alpha.8"
   }
 }
