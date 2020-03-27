@@ -15,18 +15,15 @@ if (!exists) {
 }
 // Now require from this script's location.
 const mainPackageJson = require(path.join("..", mainPackageJsonPath));
-const bins = Array.isArray(mainPackageJson.esy.release.releasedBinaries)
-  ? mainPackageJson.esy.release.releasedBinaries.reduce(
+const bins = Array.isArray(mainPackageJson.esy.release.bin)
+  ? mainPackageJson.esy.release.bin.reduce(
       (acc, curr) => Object.assign({ [curr]: "bin/" + curr }, acc),
       {}
     )
-  : Object.keys(mainPackageJson.esy.release.releasedBinaries).reduce(
+  : Object.keys(mainPackageJson.esy.release.bin).reduce(
       (acc, currKey) =>
         Object.assign(
-          {
-            [currKey]:
-              "bin/" + mainPackageJson.esy.release.releasedBinaries[currKey]
-          },
+          { [currKey]: "bin/" + mainPackageJson.esy.release.bin[currKey] },
           acc
         ),
       {}
