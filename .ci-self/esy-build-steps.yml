@@ -7,19 +7,23 @@ steps:
     displayName: "install pesy" 
   - script: mkdir $(Pipeline.Workspace)/hello-reason
     displayName: "Create project folder"
-  - script: "pesy init --template=esy/pesy-reason-template#$(Build.SourceBranch)"
+  - script: "pesy --init hello-reason --template=esy/pesy-reason-template#$(Build.SourceBranch)"
     displayName: "Initialize pesy template"
-    workingDirectory: $(Pipeline.Workspace)/hello-reason
   - script: "esy install"
     displayName: "esy install"
+    workingDirectory: $(Pipeline.Workspace)/hello-reason
   - template: utils/restore-build-cache.yml
+    workingDirectory: $(Pipeline.Workspace)/hello-reason
   - script: "esy build --release"
     displayName: "esy build --release"
+    workingDirectory: $(Pipeline.Workspace)/hello-reason
   - template: utils/create-docs.yml
   - script: "esy test"
     displayName: "Test command"
+    workingDirectory: $(Pipeline.Workspace)/hello-reason
   - script: "esy release"
     displayName: "esy release"
+    workingDirectory: $(Pipeline.Workspace)/hello-reason
   - template: utils/publish-build-cache.yml
 
   # Run tests or any additional steps here
