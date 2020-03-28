@@ -63,13 +63,13 @@
     "@reason-native/pastel": "*",
     "@reason-native/rely": "*",
     "@esy-ocaml/reason": "*",
-    "ocaml": "~4.7.0",
+    "ocaml": "~4.8.1",
     "@pesy/esy-pesy": "0.1.0-alpha.8"
   },
   "devDependencies": {
     "refmterr": "*",
     "@opam/merlin": "*",
-    "ocaml": "~4.7.0",
+    "ocaml": "~4.8.1",
     "@opam/odoc": "*"
   }
 }
