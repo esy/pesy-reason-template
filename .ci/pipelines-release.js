@@ -4,9 +4,9 @@ const path = require("path");
 console.log("Creating package.json");
 
 // From the project root pwd
-const mainPackageJsonPath =
-  fs.existsSync('esy.json') ?
-  'esy.json' : 'package.json';
+const mainPackageJsonPath = fs.existsSync("esy.json")
+  ? "esy.json"
+  : "package.json";
 
 const exists = fs.existsSync(mainPackageJsonPath);
 if (!exists) {
@@ -14,17 +14,23 @@ if (!exists) {
   process.exit(1);
 }
 // Now require from this script's location.
-const mainPackageJson = require(path.join('..', mainPackageJsonPath));
-const bins =
-  Array.isArray(mainPackageJson.esy.release.bin) ?
-  mainPackageJson.esy.release.bin.reduce(
-    (acc, curr) => Object.assign({ [curr]: "bin/" + curr }, acc),
-    {}
-  ) :
-  Object.keys(mainPackageJson.esy.release.bin).reduce(
-    (acc, currKey) => Object.assign({ [currKey]: "bin/" + mainPackageJson.esy.release.bin[currKey] }, acc),
-    {}
-  );
+const mainPackageJson = require(path.join("..", mainPackageJsonPath));
+const bins = Array.isArray(mainPackageJson.esy.release.releasedBinaries)
+  ? mainPackageJson.esy.release.releasedBinaries.reduce(
+      (acc, curr) => Object.assign({ [curr]: "bin/" + curr }, acc),
+      {}
+    )
+  : Object.keys(mainPackageJson.esy.release.releasedBinaries).reduce(
+      (acc, currKey) =>
+        Object.assign(
+          {
+            [currKey]:
+              "bin/" + mainPackageJson.esy.release.releasedBinaries[currKey]
+          },
+          acc
+        ),
+      {}
+    );
 
 const rewritePrefix =
   mainPackageJson.esy &&
@@ -39,10 +45,9 @@ const packageJson = JSON.stringify(
     description: mainPackageJson.description,
     repository: mainPackageJson.repository,
     scripts: {
-      postinstall:
-        rewritePrefix ?
-        "ESY_RELEASE_REWRITE_PREFIX=true node ./postinstall.js" :
-        "node ./postinstall.js"
+      postinstall: rewritePrefix
+        ? "ESY_RELEASE_REWRITE_PREFIX=true node ./postinstall.js"
+        : "node ./postinstall.js"
     },
     bin: bins,
     files: [
@@ -95,20 +100,13 @@ const placeholderFile = `:; echo "You need to have postinstall enabled"; exit $?
 ECHO You need to have postinstall enabled`;
 fs.mkdirSync(path.join(__dirname, "..", "_release", "bin"));
 
-Object.keys(bins).forEach(
-  name => {
-    if(bins[name]) {
-      const binPath = path.join(
-        __dirname,
-        "..",
-        "_release",
-        bins[name]
-      );
-      fs.writeFileSync(binPath, placeholderFile);
-      fs.chmodSync(binPath, 0777);
-    } else {
-      console.log("bins[name] name=" + name + " was empty. Weird.");
-      console.log(bins);
-    }
+Object.keys(bins).forEach(name => {
+  if (bins[name]) {
+    const binPath = path.join(__dirname, "..", "_release", bins[name]);
+    fs.writeFileSync(binPath, placeholderFile);
+    fs.chmodSync(binPath, 0777);
+  } else {
+    console.log("bins[name] name=" + name + " was empty. Weird.");
+    console.log(bins);
   }
-);
+});
