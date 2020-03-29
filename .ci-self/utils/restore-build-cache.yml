@@ -11,7 +11,6 @@ steps:
   - task: Bash@3
     condition: and(eq(variables['Build.Reason'], 'PullRequest'), and(succeeded(), ne(variables['Build.SourceBranch'], variables['System.PullRequest.TargetBranch'])))
     displayName: '[Cache][Restore] Restoring build cache using REST API'
-    workingDirectory: $(Pipeline.Workspace)/hello-reason
     continueOnError: true
     inputs:
       targetType: 'inline' # Optional. Options: filePath, inline
