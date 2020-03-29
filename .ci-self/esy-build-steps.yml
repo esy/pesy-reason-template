@@ -13,7 +13,6 @@ steps:
     displayName: "esy install"
     workingDirectory: $(Pipeline.Workspace)/hello-reason
   - template: utils/restore-build-cache.yml
-    workingDirectory: $(Pipeline.Workspace)/hello-reason
   - script: "esy build --release"
     displayName: "esy build --release"
     workingDirectory: $(Pipeline.Workspace)/hello-reason

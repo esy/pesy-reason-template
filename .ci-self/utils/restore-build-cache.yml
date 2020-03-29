@@ -4,12 +4,14 @@ steps:
   - bash: 'mkdir -p $(Build.StagingDirectory)'
     condition: and(eq(variables['Build.Reason'], 'PullRequest'), and(succeeded(), ne(variables['Build.SourceBranch'], variables['System.PullRequest.TargetBranch'])))
     displayName: '[Cache][Publish] Create cache directory'
+    workingDirectory: $(Pipeline.Workspace)/hello-reason
 
   # TODO: This can be done in parallel with installing node, and esy
   # (which would save a bunch of time on windows)
   - task: Bash@3
     condition: and(eq(variables['Build.Reason'], 'PullRequest'), and(succeeded(), ne(variables['Build.SourceBranch'], variables['System.PullRequest.TargetBranch'])))
     displayName: '[Cache][Restore] Restoring build cache using REST API'
+    workingDirectory: $(Pipeline.Workspace)/hello-reason
     continueOnError: true
     inputs:
       targetType: 'inline' # Optional. Options: filePath, inline
@@ -89,6 +91,7 @@ steps:
       
   - bash: 'rm -rf _import'
     continueOnError: true
+    workingDirectory: $(Pipeline.Workspace)/hello-reason
     condition: and(eq(variables['Build.Reason'], 'PullRequest'), and(succeeded(), ne(variables['Build.SourceBranch'], variables['System.PullRequest.TargetBranch'])))
     displayName: 'Remove import directory'
 
