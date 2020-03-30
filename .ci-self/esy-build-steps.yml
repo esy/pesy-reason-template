@@ -5,8 +5,6 @@ steps:
   - template: utils/use-esy.yml
   - script: "npm install -g pesy@next"
     displayName: "install pesy" 
-  - script: mkdir $(Pipeline.Workspace)/hello-reason
-    displayName: "Create project folder"
   - script: "pesy --init hello-reason --template=esy/pesy-reason-template#$(Build.SourceBranch)"
     displayName: "Initialize pesy template"
   - script: "esy install"
@@ -16,7 +14,7 @@ steps:
   - script: "esy build --release"
     displayName: "esy build --release"
     workingDirectory: $(Pipeline.Workspace)/hello-reason
-  - template: utils/create-docs.yml
+  # - template: utils/create-docs.yml
   - script: "esy test"
     displayName: "Test command"
     workingDirectory: $(Pipeline.Workspace)/hello-reason
