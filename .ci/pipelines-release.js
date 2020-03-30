@@ -97,13 +97,20 @@ const placeholderFile = `:; echo "You need to have postinstall enabled"; exit $?
 ECHO You need to have postinstall enabled`;
 fs.mkdirSync(path.join(__dirname, "..", "_release", "bin"));
 
-Object.keys(bins).forEach(name => {
-  if (bins[name]) {
-    const binPath = path.join(__dirname, "..", "_release", bins[name]);
-    fs.writeFileSync(binPath, placeholderFile);
-    fs.chmodSync(binPath, 0777);
-  } else {
-    console.log("bins[name] name=" + name + " was empty. Weird.");
-    console.log(bins);
+Object.keys(bins).forEach(
+  name => {
+    if(bins[name]) {
+      const binPath = path.join(
+        __dirname,
+        "..",
+        "_release",
+        bins[name]
+      );
+      fs.writeFileSync(binPath, placeholderFile);
+      fs.chmodSync(binPath, 0777);
+    } else {
+      console.log("bins[name] name=" + name + " was empty. Weird.");
+      console.log(bins);
+    }
   }
-});
+);
