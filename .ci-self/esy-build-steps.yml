@@ -7,14 +7,6 @@ steps:
     displayName: "install pesy" 
   - script: "pesy --init hello-reason --template=esy/pesy-reason-template#$(Build.SourceBranch)"
     displayName: "Initialize pesy template"
-  - script: "esy install"
-    displayName: "esy install"
-    workingDirectory: $(Pipeline.Workspace)/hello-reason
-  - template: utils/restore-build-cache.yml
-  - script: "esy build --release"
-    displayName: "esy build --release"
-    workingDirectory: $(Pipeline.Workspace)/hello-reason
-  # - template: utils/create-docs.yml
   - script: "esy test"
     displayName: "Test command"
     workingDirectory: $(Pipeline.Workspace)/hello-reason
