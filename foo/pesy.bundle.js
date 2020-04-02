@@ -20314,7 +20314,8 @@ function make$4(env, cmd) {
                                           }));
                             }), cmds).reduce((function (prim, prim$1) {
                             return prim$1.concat(prim);
-                          }), /* array */[]).map((function (p) {
+                            }), /* array */[]).map((function (p) {
+			      console.log("Checking...", p);
                           return Bindings_bs.Fs.exists(p).then((function (exists) {
                                         return Promise.resolve(/* tuple */[
                                                     p,
