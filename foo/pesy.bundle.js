@@ -35231,7 +35231,13 @@ function setup$1(esy, template, projectPath) {
                                   })), (function (param) {
                                 return runCommand(esy, /* array */["i"], projectPath, chalk.dim("Running") + chalk.whiteBright(" esy install"));
                               })), (function (param) {
-                            return Warmup_bs.run(projectPath);
+                            console.log(chalk.dim("Running") + chalk.whiteBright(" pesy warm"));
+                            return Warmup_bs.run(projectPath).then((function (warmupResult) {
+                                          if (warmupResult.tag) {
+                                            console.log("Skipping warmup because: ", warmupResult[0]);
+                                          }
+                                          return Utils_bs.ResultPromise.ok(/* () */0);
+                                        }));
                           })), (function (param) {
                         return runCommand(esy, /* array */["pesy"], projectPath, chalk.dim("Running") + (chalk.whiteBright(" esy pesy") + (chalk.dim(" and ") + chalk.whiteBright("building project dependencies"))));
                       })), (function (param) {
