@@ -7,6 +7,7 @@ steps:
     displayName: "install pesy" 
   - script: "where esy"
     displayName: "where pesy" 
+    condition: eq(variables['Agent.OS'], 'Windows_NT')
   - bash: "ls C:/npm/prefix"
     displayName: "ls C:/npm/prefix/" 
   - script: "echo $PATH"
@@ -17,13 +18,12 @@ steps:
     condition: eq(variables['Agent.OS'], 'Windows_NT')
   - script: "node pesy.bundle.js --init hello-reason --template=esy/pesy-reason-template#$(Build.SourceBranch)"
     displayName: "Initialize pesy template"
-    workingDirectory: $(Pipeline.Workspace)
   - script: "esy test"
     displayName: "Test command"
-    workingDirectory: $(Pipeline.Workspace)/hello-reason
+    workingDirectory: hello-reason
   - script: "esy release"
     displayName: "esy release"
-    workingDirectory: $(Pipeline.Workspace)/hello-reason
+    workingDirectory: hello-reason
   - template: utils/publish-build-cache.yml
 
   # Run tests or any additional steps here
