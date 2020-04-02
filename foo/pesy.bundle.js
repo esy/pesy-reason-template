@@ -131,373 +131,6 @@ var caml_builtin_exceptions = {
 	undefined_recursive_module: undefined_recursive_module_1
 };
 
-function caml_sys_getenv(s) {
-  if (typeof process === "undefined" || (process.env) === undefined) {
-    throw caml_builtin_exceptions.not_found;
-  }
-  var match = (process.env)[s];
-  if (match !== undefined) {
-    return match;
-  } else {
-    throw caml_builtin_exceptions.not_found;
-  }
-}
-
-function caml_sys_time(param) {
-  if (typeof process === "undefined" || (process.uptime) === undefined) {
-    return -1;
-  } else {
-    return process.uptime();
-  }
-}
-
-function caml_sys_random_seed(param) {
-  return /* array */[((Date.now() | 0) ^ 4294967295) * Math.random() | 0];
-}
-
-function caml_sys_system_command(_cmd) {
-  return 127;
-}
-
-function caml_sys_getcwd(param) {
-  if (typeof process === "undefined") {
-    return "/";
-  } else {
-    return process.cwd();
-  }
-}
-
-function caml_sys_get_argv(param) {
-  if (typeof process === "undefined") {
-    return /* tuple */[
-            "",
-            /* array */[""]
-          ];
-  } else {
-    var argv = (process.argv);
-    if (argv == null) {
-      return /* tuple */[
-              "",
-              /* array */[""]
-            ];
-    } else {
-      return /* tuple */[
-              argv[0],
-              argv
-            ];
-    }
-  }
-}
-
-function caml_sys_exit(exit_code) {
-  if (typeof process !== "undefined") {
-    return process.exit(exit_code);
-  } else {
-    return 0;
-  }
-}
-
-function caml_sys_is_directory(_s) {
-  throw [
-        caml_builtin_exceptions.failure,
-        "caml_sys_is_directory not implemented"
-      ];
-}
-
-function caml_sys_file_exists(_s) {
-  throw [
-        caml_builtin_exceptions.failure,
-        "caml_sys_file_exists not implemented"
-      ];
-}
-
-var caml_sys_getenv_1 = caml_sys_getenv;
-var caml_sys_time_1 = caml_sys_time;
-var caml_sys_random_seed_1 = caml_sys_random_seed;
-var caml_sys_system_command_1 = caml_sys_system_command;
-var caml_sys_getcwd_1 = caml_sys_getcwd;
-var caml_sys_get_argv_1 = caml_sys_get_argv;
-var caml_sys_exit_1 = caml_sys_exit;
-var caml_sys_is_directory_1 = caml_sys_is_directory;
-var caml_sys_file_exists_1 = caml_sys_file_exists;
-/* No side effect */
-
-var caml_sys = {
-	caml_sys_getenv: caml_sys_getenv_1,
-	caml_sys_time: caml_sys_time_1,
-	caml_sys_random_seed: caml_sys_random_seed_1,
-	caml_sys_system_command: caml_sys_system_command_1,
-	caml_sys_getcwd: caml_sys_getcwd_1,
-	caml_sys_get_argv: caml_sys_get_argv_1,
-	caml_sys_exit: caml_sys_exit_1,
-	caml_sys_is_directory: caml_sys_is_directory_1,
-	caml_sys_file_exists: caml_sys_file_exists_1
-};
-
-var id = {
-  contents: 0
-};
-
-function caml_set_oo_id(b) {
-  b[1] = id.contents;
-  id.contents = id.contents + 1;
-  return b;
-}
-
-function caml_fresh_oo_id(param) {
-  id.contents = id.contents + 1;
-  return id.contents;
-}
-
-function create(str) {
-  var v_001 = caml_fresh_oo_id();
-  var v = /* tuple */[
-    str,
-    v_001
-  ];
-  v.tag = 248;
-  return v;
-}
-
-function caml_is_extension(e) {
-  if (e === undefined) {
-    return false;
-  } else if (e.tag === 248) {
-    return true;
-  } else {
-    var slot = e[0];
-    if (slot !== undefined) {
-      return slot.tag === 248;
-    } else {
-      return false;
-    }
-  }
-}
-
-var caml_set_oo_id_1 = caml_set_oo_id;
-var caml_fresh_oo_id_1 = caml_fresh_oo_id;
-var create_1 = create;
-var caml_is_extension_1 = caml_is_extension;
-/* No side effect */
-
-var caml_exceptions = {
-	caml_set_oo_id: caml_set_oo_id_1,
-	caml_fresh_oo_id: caml_fresh_oo_id_1,
-	create: create_1,
-	caml_is_extension: caml_is_extension_1
-};
-
-var match = caml_sys.caml_sys_get_argv(/* () */0);
-
-var backend_type = /* Other */["BS"];
-
-var big_endian = false;
-
-var int_size = 32;
-
-var unix = true;
-
-var win32 = false;
-
-var cygwin = false;
-
-function getenv_opt(s) {
-  var match = typeof process === "undefined" ? undefined : process;
-  if (match !== undefined) {
-    return match.env[s];
-  }
-  
-}
-
-var interactive = {
-  contents: false
-};
-
-function set_signal(sig_num, sig_beh) {
-  return /* () */0;
-}
-
-var Break = caml_exceptions.create("Sys.Break");
-
-function catch_break(on) {
-  return /* () */0;
-}
-
-function enable_runtime_warnings(param) {
-  return /* () */0;
-}
-
-function runtime_warnings_enabled(param) {
-  return false;
-}
-
-var argv = match[1];
-
-var executable_name = match[0];
-
-var word_size = 32;
-
-var max_string_length = 2147483647;
-
-var max_array_length = 2147483647;
-
-var sigabrt = -1;
-
-var sigalrm = -2;
-
-var sigfpe = -3;
-
-var sighup = -4;
-
-var sigill = -5;
-
-var sigint = -6;
-
-var sigkill = -7;
-
-var sigpipe = -8;
-
-var sigquit = -9;
-
-var sigsegv = -10;
-
-var sigterm = -11;
-
-var sigusr1 = -12;
-
-var sigusr2 = -13;
-
-var sigchld = -14;
-
-var sigcont = -15;
-
-var sigstop = -16;
-
-var sigtstp = -17;
-
-var sigttin = -18;
-
-var sigttou = -19;
-
-var sigvtalrm = -20;
-
-var sigprof = -21;
-
-var sigbus = -22;
-
-var sigpoll = -23;
-
-var sigsys = -24;
-
-var sigtrap = -25;
-
-var sigurg = -26;
-
-var sigxcpu = -27;
-
-var sigxfsz = -28;
-
-var ocaml_version = "4.06.2+BS";
-
-var argv_1 = argv;
-var executable_name_1 = executable_name;
-var getenv_opt_1 = getenv_opt;
-var interactive_1 = interactive;
-var backend_type_1 = backend_type;
-var unix_1 = unix;
-var win32_1 = win32;
-var cygwin_1 = cygwin;
-var word_size_1 = word_size;
-var int_size_1 = int_size;
-var big_endian_1 = big_endian;
-var max_string_length_1 = max_string_length;
-var max_array_length_1 = max_array_length;
-var set_signal_1 = set_signal;
-var sigabrt_1 = sigabrt;
-var sigalrm_1 = sigalrm;
-var sigfpe_1 = sigfpe;
-var sighup_1 = sighup;
-var sigill_1 = sigill;
-var sigint_1 = sigint;
-var sigkill_1 = sigkill;
-var sigpipe_1 = sigpipe;
-var sigquit_1 = sigquit;
-var sigsegv_1 = sigsegv;
-var sigterm_1 = sigterm;
-var sigusr1_1 = sigusr1;
-var sigusr2_1 = sigusr2;
-var sigchld_1 = sigchld;
-var sigcont_1 = sigcont;
-var sigstop_1 = sigstop;
-var sigtstp_1 = sigtstp;
-var sigttin_1 = sigttin;
-var sigttou_1 = sigttou;
-var sigvtalrm_1 = sigvtalrm;
-var sigprof_1 = sigprof;
-var sigbus_1 = sigbus;
-var sigpoll_1 = sigpoll;
-var sigsys_1 = sigsys;
-var sigtrap_1 = sigtrap;
-var sigurg_1 = sigurg;
-var sigxcpu_1 = sigxcpu;
-var sigxfsz_1 = sigxfsz;
-var Break_1 = Break;
-var catch_break_1 = catch_break;
-var ocaml_version_1 = ocaml_version;
-var enable_runtime_warnings_1 = enable_runtime_warnings;
-var runtime_warnings_enabled_1 = runtime_warnings_enabled;
-/* No side effect */
-
-var sys = {
-	argv: argv_1,
-	executable_name: executable_name_1,
-	getenv_opt: getenv_opt_1,
-	interactive: interactive_1,
-	backend_type: backend_type_1,
-	unix: unix_1,
-	win32: win32_1,
-	cygwin: cygwin_1,
-	word_size: word_size_1,
-	int_size: int_size_1,
-	big_endian: big_endian_1,
-	max_string_length: max_string_length_1,
-	max_array_length: max_array_length_1,
-	set_signal: set_signal_1,
-	sigabrt: sigabrt_1,
-	sigalrm: sigalrm_1,
-	sigfpe: sigfpe_1,
-	sighup: sighup_1,
-	sigill: sigill_1,
-	sigint: sigint_1,
-	sigkill: sigkill_1,
-	sigpipe: sigpipe_1,
-	sigquit: sigquit_1,
-	sigsegv: sigsegv_1,
-	sigterm: sigterm_1,
-	sigusr1: sigusr1_1,
-	sigusr2: sigusr2_1,
-	sigchld: sigchld_1,
-	sigcont: sigcont_1,
-	sigstop: sigstop_1,
-	sigtstp: sigtstp_1,
-	sigttin: sigttin_1,
-	sigttou: sigttou_1,
-	sigvtalrm: sigvtalrm_1,
-	sigprof: sigprof_1,
-	sigbus: sigbus_1,
-	sigpoll: sigpoll_1,
-	sigsys: sigsys_1,
-	sigtrap: sigtrap_1,
-	sigurg: sigurg_1,
-	sigxcpu: sigxcpu_1,
-	sigxfsz: sigxfsz_1,
-	Break: Break_1,
-	catch_break: catch_break_1,
-	ocaml_version: ocaml_version_1,
-	enable_runtime_warnings: enable_runtime_warnings_1,
-	runtime_warnings_enabled: runtime_warnings_enabled_1
-};
-
 function caml_array_sub(x, offset, len) {
   var result = new Array(len);
   var j = 0;
@@ -1980,6 +1613,59 @@ var caml_obj = {
 	caml_min: caml_min_1,
 	caml_max: caml_max_1,
 	caml_obj_set_tag: caml_obj_set_tag_1
+};
+
+var id = {
+  contents: 0
+};
+
+function caml_set_oo_id(b) {
+  b[1] = id.contents;
+  id.contents = id.contents + 1;
+  return b;
+}
+
+function caml_fresh_oo_id(param) {
+  id.contents = id.contents + 1;
+  return id.contents;
+}
+
+function create(str) {
+  var v_001 = caml_fresh_oo_id();
+  var v = /* tuple */[
+    str,
+    v_001
+  ];
+  v.tag = 248;
+  return v;
+}
+
+function caml_is_extension(e) {
+  if (e === undefined) {
+    return false;
+  } else if (e.tag === 248) {
+    return true;
+  } else {
+    var slot = e[0];
+    if (slot !== undefined) {
+      return slot.tag === 248;
+    } else {
+      return false;
+    }
+  }
+}
+
+var caml_set_oo_id_1 = caml_set_oo_id;
+var caml_fresh_oo_id_1 = caml_fresh_oo_id;
+var create_1 = create;
+var caml_is_extension_1 = caml_is_extension;
+/* No side effect */
+
+var caml_exceptions = {
+	caml_set_oo_id: caml_set_oo_id_1,
+	caml_fresh_oo_id: caml_fresh_oo_id_1,
+	create: create_1,
+	caml_is_extension: caml_is_extension_1
 };
 
 var undefinedHeader = /* array */[];
@@ -4136,6 +3822,109 @@ var caml_io = {
 	caml_ml_output: caml_ml_output_1,
 	caml_ml_output_char: caml_ml_output_char_1,
 	caml_ml_out_channels_list: caml_ml_out_channels_list_1
+};
+
+function caml_sys_getenv(s) {
+  if (typeof process === "undefined" || (process.env) === undefined) {
+    throw caml_builtin_exceptions.not_found;
+  }
+  var match = (process.env)[s];
+  if (match !== undefined) {
+    return match;
+  } else {
+    throw caml_builtin_exceptions.not_found;
+  }
+}
+
+function caml_sys_time(param) {
+  if (typeof process === "undefined" || (process.uptime) === undefined) {
+    return -1;
+  } else {
+    return process.uptime();
+  }
+}
+
+function caml_sys_random_seed(param) {
+  return /* array */[((Date.now() | 0) ^ 4294967295) * Math.random() | 0];
+}
+
+function caml_sys_system_command(_cmd) {
+  return 127;
+}
+
+function caml_sys_getcwd(param) {
+  if (typeof process === "undefined") {
+    return "/";
+  } else {
+    return process.cwd();
+  }
+}
+
+function caml_sys_get_argv(param) {
+  if (typeof process === "undefined") {
+    return /* tuple */[
+            "",
+            /* array */[""]
+          ];
+  } else {
+    var argv = (process.argv);
+    if (argv == null) {
+      return /* tuple */[
+              "",
+              /* array */[""]
+            ];
+    } else {
+      return /* tuple */[
+              argv[0],
+              argv
+            ];
+    }
+  }
+}
+
+function caml_sys_exit(exit_code) {
+  if (typeof process !== "undefined") {
+    return process.exit(exit_code);
+  } else {
+    return 0;
+  }
+}
+
+function caml_sys_is_directory(_s) {
+  throw [
+        caml_builtin_exceptions.failure,
+        "caml_sys_is_directory not implemented"
+      ];
+}
+
+function caml_sys_file_exists(_s) {
+  throw [
+        caml_builtin_exceptions.failure,
+        "caml_sys_file_exists not implemented"
+      ];
+}
+
+var caml_sys_getenv_1 = caml_sys_getenv;
+var caml_sys_time_1 = caml_sys_time;
+var caml_sys_random_seed_1 = caml_sys_random_seed;
+var caml_sys_system_command_1 = caml_sys_system_command;
+var caml_sys_getcwd_1 = caml_sys_getcwd;
+var caml_sys_get_argv_1 = caml_sys_get_argv;
+var caml_sys_exit_1 = caml_sys_exit;
+var caml_sys_is_directory_1 = caml_sys_is_directory;
+var caml_sys_file_exists_1 = caml_sys_file_exists;
+/* No side effect */
+
+var caml_sys = {
+	caml_sys_getenv: caml_sys_getenv_1,
+	caml_sys_time: caml_sys_time_1,
+	caml_sys_random_seed: caml_sys_random_seed_1,
+	caml_sys_system_command: caml_sys_system_command_1,
+	caml_sys_getcwd: caml_sys_getcwd_1,
+	caml_sys_get_argv: caml_sys_get_argv_1,
+	caml_sys_exit: caml_sys_exit_1,
+	caml_sys_is_directory: caml_sys_is_directory_1,
+	caml_sys_file_exists: caml_sys_file_exists_1
 };
 
 function div(x, y) {
@@ -17562,8 +17351,8 @@ minimatch.match = function (list, pattern, options) {
   return list
 };
 
-Minimatch.prototype.match = match$1;
-function match$1 (f, partial) {
+Minimatch.prototype.match = match;
+function match (f, partial) {
   this.debug('match', f, this.pattern);
   // short-circuit in the case of busted things.
   // comments, etc.
@@ -17834,7 +17623,7 @@ function posix(path) {
 	return path.charAt(0) === '/';
 }
 
-function win32$1(path) {
+function win32(path) {
 	// https://github.com/nodejs/node/blob/b3fcc245fb25539909ef1d5eaa01dbf92e168633/lib/path.js#L56
 	var splitDeviceRe = /^([a-zA-Z]:|[\\\/]{2}[^\\\/]+[\\\/]+[^\\\/]+)?([\\\/])?([\s\S]*?)$/;
 	var result = splitDeviceRe.exec(path);
@@ -17845,11 +17634,11 @@ function win32$1(path) {
 	return Boolean(result[2] || isUnc);
 }
 
-var pathIsAbsolute = process.platform === 'win32' ? win32$1 : posix;
+var pathIsAbsolute = process.platform === 'win32' ? win32 : posix;
 var posix_1 = posix;
-var win32_1$1 = win32$1;
+var win32_1 = win32;
 pathIsAbsolute.posix = posix_1;
-pathIsAbsolute.win32 = win32_1$1;
+pathIsAbsolute.win32 = win32_1;
 
 var alphasort_1 = alphasort;
 var alphasorti_1 = alphasorti;
@@ -20120,7 +19909,8 @@ function mkdir$1(dryRun, p, path) {
                   if (doesExist) {
                     return Promise.resolve(/* () */0);
                   } else {
-                    var homePath = caml_sys.caml_sys_getenv( "HOME" );
+                    var match = process.platform === "win32";
+                    var homePath = caml_sys.caml_sys_getenv(match ? "USERPROFILE" : "HOME");
                     if (path === homePath) {
                       return Promise.reject([
                                   caml_builtin_exceptions.failure,
@@ -20291,9 +20081,9 @@ var Bindings_bs = {
 
 var pathMissingFromEnv = "'PATH' variable not found in the environment";
 
-var match$2 = process.platform === "win32";
+var match$1 = process.platform === "win32";
 
-var env_sep = match$2 ? ";" : ":";
+var env_sep = match$1 ? ";" : ":";
 
 function binPath(c) {
   return c.cmd;
@@ -20303,7 +20093,11 @@ function make$4(env, cmd) {
   var match = js_dict.get(env, "PATH");
   if (match !== undefined) {
     var path = match;
-    var cmds =  /* array */[cmd] ;
+    var match$1 = process.platform === "win32";
+    var cmds = match$1 ? /* array */[
+        cmd + ".exe",
+        cmd + ".cmd"
+      ] : /* array */[cmd];
     return Promise.all(array.map((function (cmd) {
                               return path.split(env_sep).map((function (p) {
                                             return path$1.join(p, cmd);
@@ -23377,11 +23171,11 @@ var RESTResponse = {
   getDownloadURL: getDownloadURL
 };
 
-var match$3 = process.platform;
+var match$2 = process.platform;
 
 var os;
 
-switch (match$3) {
+switch (match$2) {
   case "darwin" :
       os = "Darwin";
       break;
@@ -23701,6 +23495,217 @@ var Warmup_bs = {
 	divideBy: divideBy_1,
 	toHumanReadableBytes: toHumanReadableBytes_1,
 	run: run_1
+};
+
+var match$3 = caml_sys.caml_sys_get_argv(/* () */0);
+
+var backend_type = /* Other */["BS"];
+
+var big_endian = false;
+
+var int_size = 32;
+
+var unix = true;
+
+var win32$1 = false;
+
+var cygwin = false;
+
+function getenv_opt(s) {
+  var match = typeof process === "undefined" ? undefined : process;
+  if (match !== undefined) {
+    return match.env[s];
+  }
+  
+}
+
+var interactive = {
+  contents: false
+};
+
+function set_signal(sig_num, sig_beh) {
+  return /* () */0;
+}
+
+var Break = caml_exceptions.create("Sys.Break");
+
+function catch_break(on) {
+  return /* () */0;
+}
+
+function enable_runtime_warnings(param) {
+  return /* () */0;
+}
+
+function runtime_warnings_enabled(param) {
+  return false;
+}
+
+var argv = match$3[1];
+
+var executable_name = match$3[0];
+
+var word_size = 32;
+
+var max_string_length = 2147483647;
+
+var max_array_length = 2147483647;
+
+var sigabrt = -1;
+
+var sigalrm = -2;
+
+var sigfpe = -3;
+
+var sighup = -4;
+
+var sigill = -5;
+
+var sigint = -6;
+
+var sigkill = -7;
+
+var sigpipe = -8;
+
+var sigquit = -9;
+
+var sigsegv = -10;
+
+var sigterm = -11;
+
+var sigusr1 = -12;
+
+var sigusr2 = -13;
+
+var sigchld = -14;
+
+var sigcont = -15;
+
+var sigstop = -16;
+
+var sigtstp = -17;
+
+var sigttin = -18;
+
+var sigttou = -19;
+
+var sigvtalrm = -20;
+
+var sigprof = -21;
+
+var sigbus = -22;
+
+var sigpoll = -23;
+
+var sigsys = -24;
+
+var sigtrap = -25;
+
+var sigurg = -26;
+
+var sigxcpu = -27;
+
+var sigxfsz = -28;
+
+var ocaml_version = "4.06.2+BS";
+
+var argv_1 = argv;
+var executable_name_1 = executable_name;
+var getenv_opt_1 = getenv_opt;
+var interactive_1 = interactive;
+var backend_type_1 = backend_type;
+var unix_1 = unix;
+var win32_1$1 = win32$1;
+var cygwin_1 = cygwin;
+var word_size_1 = word_size;
+var int_size_1 = int_size;
+var big_endian_1 = big_endian;
+var max_string_length_1 = max_string_length;
+var max_array_length_1 = max_array_length;
+var set_signal_1 = set_signal;
+var sigabrt_1 = sigabrt;
+var sigalrm_1 = sigalrm;
+var sigfpe_1 = sigfpe;
+var sighup_1 = sighup;
+var sigill_1 = sigill;
+var sigint_1 = sigint;
+var sigkill_1 = sigkill;
+var sigpipe_1 = sigpipe;
+var sigquit_1 = sigquit;
+var sigsegv_1 = sigsegv;
+var sigterm_1 = sigterm;
+var sigusr1_1 = sigusr1;
+var sigusr2_1 = sigusr2;
+var sigchld_1 = sigchld;
+var sigcont_1 = sigcont;
+var sigstop_1 = sigstop;
+var sigtstp_1 = sigtstp;
+var sigttin_1 = sigttin;
+var sigttou_1 = sigttou;
+var sigvtalrm_1 = sigvtalrm;
+var sigprof_1 = sigprof;
+var sigbus_1 = sigbus;
+var sigpoll_1 = sigpoll;
+var sigsys_1 = sigsys;
+var sigtrap_1 = sigtrap;
+var sigurg_1 = sigurg;
+var sigxcpu_1 = sigxcpu;
+var sigxfsz_1 = sigxfsz;
+var Break_1 = Break;
+var catch_break_1 = catch_break;
+var ocaml_version_1 = ocaml_version;
+var enable_runtime_warnings_1 = enable_runtime_warnings;
+var runtime_warnings_enabled_1 = runtime_warnings_enabled;
+/* No side effect */
+
+var sys = {
+	argv: argv_1,
+	executable_name: executable_name_1,
+	getenv_opt: getenv_opt_1,
+	interactive: interactive_1,
+	backend_type: backend_type_1,
+	unix: unix_1,
+	win32: win32_1$1,
+	cygwin: cygwin_1,
+	word_size: word_size_1,
+	int_size: int_size_1,
+	big_endian: big_endian_1,
+	max_string_length: max_string_length_1,
+	max_array_length: max_array_length_1,
+	set_signal: set_signal_1,
+	sigabrt: sigabrt_1,
+	sigalrm: sigalrm_1,
+	sigfpe: sigfpe_1,
+	sighup: sighup_1,
+	sigill: sigill_1,
+	sigint: sigint_1,
+	sigkill: sigkill_1,
+	sigpipe: sigpipe_1,
+	sigquit: sigquit_1,
+	sigsegv: sigsegv_1,
+	sigterm: sigterm_1,
+	sigusr1: sigusr1_1,
+	sigusr2: sigusr2_1,
+	sigchld: sigchld_1,
+	sigcont: sigcont_1,
+	sigstop: sigstop_1,
+	sigtstp: sigtstp_1,
+	sigttin: sigttin_1,
+	sigttou: sigttou_1,
+	sigvtalrm: sigvtalrm_1,
+	sigprof: sigprof_1,
+	sigbus: sigbus_1,
+	sigpoll: sigpoll_1,
+	sigsys: sigsys_1,
+	sigtrap: sigtrap_1,
+	sigurg: sigurg_1,
+	sigxcpu: sigxcpu_1,
+	sigxfsz: sigxfsz_1,
+	Break: Break_1,
+	catch_break: catch_break_1,
+	ocaml_version: ocaml_version_1,
+	enable_runtime_warnings: enable_runtime_warnings_1,
+	runtime_warnings_enabled: runtime_warnings_enabled_1
 };
 
 function add_queue(x, q) {
