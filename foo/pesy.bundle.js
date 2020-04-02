@@ -3,7 +3,7 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
-
+var nodePath = require('path');
 var fs = _interopDefault(require('fs'));
 var chalk = _interopDefault(require('chalk'));
 var https = _interopDefault(require('https'));
@@ -15947,7 +15947,7 @@ var Caml = {
 };
 
 var Path = {
-  $slash: filename.concat
+  $slash: nodePath.join
 };
 
 function kebab(str) {
