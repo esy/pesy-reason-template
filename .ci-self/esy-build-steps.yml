@@ -9,6 +9,8 @@ steps:
     displayName: "where pesy" 
   - bash: "ls C:/npm/prefix"
     displayName: "ls C:/npm/prefix/" 
+  - bash: "echo $PATH"
+    displayName: "echo $PATH" 
   - script: "pesy --init hello-reason --template=esy/pesy-reason-template#$(Build.SourceBranch)"
     displayName: "Initialize pesy template"
     workingDirectory: $(Pipeline.Workspace)
