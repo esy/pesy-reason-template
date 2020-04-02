@@ -18,11 +18,13 @@ steps:
     condition: eq(variables['Agent.OS'], 'Windows_NT')
   - script: "npm i"
     workingDirectory: "foo"
-  - script: "node foo/pesy.bundle.js --init hello-reason --template=esy/pesy-reason-template#$(Build.SourceBranch)"
+  - script: "node foo/pesy.bundle.js --init $(Pipeline.Workspace)/hello-reason --template=esy/pesy-reason-template#$(Build.SourceBranch)"
     displayName: "Initialize pesy template"
+  - bash: "ls $(Pipeline.Workspace)/hello-reason"
+    displayName: "Directory contents"
   - script: "esy test"
     displayName: "Test command"
-    workingDirectory: hello-reason
+    workingDirectory: $(Pipeline.Workspace)/hello-reason
   - script: "esy release"
     displayName: "esy release"
     workingDirectory: hello-reason
