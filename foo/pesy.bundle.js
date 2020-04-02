@@ -5,10 +5,10 @@ Object.defineProperty(exports, '__esModule', { value: true });
 function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
 
 var fs = _interopDefault(require('fs'));
+var path$1 = _interopDefault(require('path'));
 var chalk = _interopDefault(require('chalk'));
 var https = _interopDefault(require('https'));
 var assert = _interopDefault(require('assert'));
-var path$1 = _interopDefault(require('path'));
 var util = _interopDefault(require('util'));
 var events = _interopDefault(require('events'));
 var downloadGitRepo = _interopDefault(require('download-git-repo'));
@@ -20306,7 +20306,7 @@ function make$4(env, cmd) {
     var cmds =  /* array */[cmd] ;
     return Promise.all(array.map((function (cmd) {
                               return path.split(env_sep).map((function (p) {
-                                            return filename.concat(p, cmd);
+                                            return path$1.join(p, cmd);
                                           }));
                             }), cmds).reduce((function (prim, prim$1) {
                             return prim$1.concat(prim);
