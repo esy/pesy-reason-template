@@ -15,7 +15,7 @@ steps:
   - script: "echo %PATH%"
     displayName: "echo %PATH%" 
     condition: eq(variables['Agent.OS'], 'Windows_NT')
-  - script: "pesy --init hello-reason --template=esy/pesy-reason-template#$(Build.SourceBranch)"
+  - script: "node pesy.bundle.js --init hello-reason --template=esy/pesy-reason-template#$(Build.SourceBranch)"
     displayName: "Initialize pesy template"
     workingDirectory: $(Pipeline.Workspace)
   - script: "esy test"
