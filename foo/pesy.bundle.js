@@ -3,7 +3,7 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
-var nodePath = require('path');
+
 var fs = _interopDefault(require('fs'));
 var chalk = _interopDefault(require('chalk'));
 var https = _interopDefault(require('https'));
@@ -15946,10 +15946,6 @@ var Caml = {
   $$String: /* alias */0
 };
 
-var Path = {
-  $slash: nodePath.join
-};
-
 function kebab(str) {
   var charStrings = str.split("");
   var k = array.map((function (c) {
@@ -16110,7 +16106,6 @@ var parent = filename.dirname;
 
 var $less$less_1 = $less$less;
 var Caml_1 = Caml;
-var Path_1 = Path;
 var spf_1 = spf;
 var parent_1 = parent;
 var kebab_1 = kebab;
@@ -16125,7 +16120,6 @@ var ResultPromise_1 = ResultPromise;
 var Utils_bs = {
 	$less$less: $less$less_1,
 	Caml: Caml_1,
-	Path: Path_1,
 	spf: spf_1,
 	parent: parent_1,
 	kebab: kebab_1,
@@ -20231,7 +20225,7 @@ var Chalk$1 = {
   bgHwb: bgHwb
 };
 
-var Path$1 = { };
+var Path = { };
 
 function run(p) {
   return new Promise((function (resolve, param) {
@@ -20269,7 +20263,7 @@ var Fs_1 = Fs$1;
 var throwJSError_1 = throwJSError;
 var handlePromiseRejectInJS_1 = handlePromiseRejectInJS;
 var Chalk_1 = Chalk$1;
-var Path_1$1 = Path$1;
+var Path_1 = Path;
 var Rimraf_1 = Rimraf$1;
 /* scriptPath Not a pure module */
 
@@ -20291,13 +20285,15 @@ var Bindings_bs = {
 	throwJSError: throwJSError_1,
 	handlePromiseRejectInJS: handlePromiseRejectInJS_1,
 	Chalk: Chalk_1,
-	Path: Path_1$1,
+	Path: Path_1,
 	Rimraf: Rimraf_1
 };
 
 var pathMissingFromEnv = "'PATH' variable not found in the environment";
 
-var env_sep =  ";" ;
+var match$2 = process.platform === "win32";
+
+var env_sep = match$2 ? ";" : ":";
 
 function binPath(c) {
   return c.cmd;
@@ -20314,8 +20310,7 @@ function make$4(env, cmd) {
                                           }));
                             }), cmds).reduce((function (prim, prim$1) {
                             return prim$1.concat(prim);
-                            }), /* array */[]).map((function (p) {
-			      console.log("Checking...", p);
+                          }), /* array */[]).map((function (p) {
                           return Bindings_bs.Fs.exists(p).then((function (exists) {
                                         return Promise.resolve(/* tuple */[
                                                     p,
@@ -20327,8 +20322,7 @@ function make$4(env, cmd) {
                                       return param[1];
                                     })));
                   })).then((function (r) {
-                    var r$1 = array.to_list(r);
-		    console.log(process.env['PATH']);
+                  var r$1 = array.to_list(r);
                   return Promise.resolve(r$1 ? /* Ok */caml_chrome_debugger.variant("Ok", 0, [{
                                     cmd: r$1[0][0],
                                     env: env
@@ -20360,7 +20354,6 @@ function output$2(args, cwd, cmd) {
 }
 
 function spawn$1(args, cwd, cmd) {
-  console.log("<<<<<<<<", cmd);
   var cmd$1 = cmd.cmd;
   return new Promise((function (resolve, param) {
                 var $$process = Bindings_bs.ChildProcess.spawn(cmd$1, args, curry._4(Bindings_bs.ChildProcess.Options.make, cwd, undefined, "inherit", /* () */0));
@@ -20380,7 +20373,7 @@ var binPath_1 = binPath;
 var make_1$2 = make$4;
 var output_1$2 = output$2;
 var spawn_1 = spawn$1;
-/* Bindings Not a pure module */
+/* match Not a pure module */
 
 var Cmd_bs = {
 	pathMissingFromEnv: pathMissingFromEnv_1,
@@ -23384,11 +23377,11 @@ var RESTResponse = {
   getDownloadURL: getDownloadURL
 };
 
-var match$2 = process.platform;
+var match$3 = process.platform;
 
 var os;
 
-switch (match$2) {
+switch (match$3) {
   case "darwin" :
       os = "Darwin";
       break;
@@ -23658,14 +23651,14 @@ function run$1(projectPath) {
                                                                                                   }));
                                                                                     }));
                                                                       })), (function (_stdout) {
-                                                                    return importDependencies(curry._2(Utils_bs.Path.$slash, projectPath, "cache-Darwin-install-v1"), esy);
+                                                                    return importDependencies(path$1.join(projectPath, "cache-Darwin-install-v1"), esy);
                                                                   })), (function (param) {
                                                                 console.log(chalk.whiteBright("Running ") + chalk.bold("esy import-dependencies"));
                                                                 process.stdout.write(chalk.dim(param[0]));
                                                                 process.stdout.write(chalk.dim(param[1]));
-                                                                return Bindings_bs.Rimraf.run(curry._2(Utils_bs.Path.$slash, projectPath, "cache.zip"));
+                                                                return Bindings_bs.Rimraf.run(path$1.join(projectPath, "cache.zip"));
                                                               })), (function (param) {
-                                                            return Bindings_bs.Rimraf.run(curry._2(Utils_bs.Path.$slash, projectPath, "cache-Darwin-install-v1"));
+                                                            return Bindings_bs.Rimraf.run(path$1.join(projectPath, "cache-Darwin-install-v1"));
                                                           }));
                                             }
                                           }));
@@ -35171,7 +35164,7 @@ function copyBundledTemplate(projectPath) {
 function bootstrap(projectPath, param) {
   if (param !== undefined) {
     return Bindings_bs.downloadGit(param, projectPath).then((function (param) {
-                    return Bindings_bs.Rimraf.run(curry._2(Utils_bs.Path.$slash, projectPath, ".ci-self"));
+                    return Bindings_bs.Rimraf.run(path$1.join(projectPath, ".ci-self"));
                   })).then((function (param) {
                   if (param.tag) {
                     return Promise.resolve(/* Error */caml_chrome_debugger.variant("Error", 1, [param[0]]));
@@ -35196,7 +35189,7 @@ function subst(projectPath, file) {
 
 function substitute(projectPath) {
   return Promise.all(walkSync(projectPath).map((function (file_or_dir) {
-                        return curry._2(Utils_bs.Path.$slash, projectPath, file_or_dir);
+                        return path$1.join(projectPath, file_or_dir);
                       })).filter((function (file_or_dir) {
                       return fs.statSync(file_or_dir).isFile();
                     })).map((function (param) {
@@ -35221,11 +35214,11 @@ function setup$1(esy, template, projectPath) {
                                                   console.log("");
                                                   /* array */[
                                                       "azure-pipelines.yml",
-                                                      curry._2(Utils_bs.Path.$slash, "library", "Util.re"),
-                                                      curry._2(Utils_bs.Path.$slash, "test", "TestFile.re"),
-                                                      curry._2(Utils_bs.Path.$slash, "test", "TestFramework.re"),
+                                                      path$1.join("library", "Util.re"),
+                                                      path$1.join("test", "TestFile.re"),
+                                                      path$1.join("test", "TestFramework.re"),
                                                       "README.md",
-                                                      curry._2(Utils_bs.Path.$slash, "bin", Utils_bs.upperCamelCasify(Utils_bs.removeScope(Utils_bs.kebab(path$1.basename(projectPath)))) + "App.re"),
+                                                      path$1.join("bin", Utils_bs.upperCamelCasify(Utils_bs.removeScope(Utils_bs.kebab(path$1.basename(projectPath)))) + "App.re"),
                                                       "dune-project",
                                                       Utils_bs.kebab(path$1.basename(projectPath)) + ".opam",
                                                       "package.json"
