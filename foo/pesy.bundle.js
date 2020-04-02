@@ -20297,7 +20297,7 @@ var Bindings_bs = {
 
 var pathMissingFromEnv = "'PATH' variable not found in the environment";
 
-var env_sep =  ":" ;
+var env_sep =  ";" ;
 
 function binPath(c) {
   return c.cmd;
