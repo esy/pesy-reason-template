@@ -5,9 +5,7 @@ steps:
   - template: utils/use-esy.yml
   - script: "npm install -g pesy@next"
     displayName: "install pesy" 
-  - script: "npm i"
-    workingDirectory: "foo"
-  - script: "node foo/pesy.bundle.js --init $(Pipeline.Workspace)/hello-reason --template=esy/pesy-reason-template#$(Build.SourceBranch)"
+  - script: "pesy --init $(Pipeline.Workspace)/hello-reason --template=esy/pesy-reason-template#$(Build.SourceBranch)"
     displayName: "Initialize pesy template"
   - script: "esy test"
     displayName: "Test command"
