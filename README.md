@@ -1,6 +1,6 @@
 # pesy-reason-template
 
-This the template used by pesy to bootstrap Reason projects. Since it contains template variables, it cannot be used on it's own.
+This the template used by pesy to bootstrap Reason projects. Since it contains template variables, it cannot be used on it's own
 
 
 If you are looking for a template repo to bootstrap your Reason project, you can
