@@ -16,7 +16,7 @@
     }
   },
   "pesy": {
-    "azure-project": "esy-ocaml/esy-ocaml"
+    "azure-project": "esy-dev/esy"
   },
   "buildDirs": {
     "test": {
