@@ -7,12 +7,12 @@ steps:
     displayName: "install pesy" 
   - script: "pesy --init $(Pipeline.Workspace)/hello-reason --template=esy/pesy-reason-template#$(Build.SourceBranch)"
     displayName: "Initialize pesy template"
+  - script: "esy start"
+    displayName: "esy start (running the boilerplate app)"
+    workingDirectory: $(Pipeline.Workspace)/hello-reason
   - script: "esy test"
     displayName: "Test command"
     workingDirectory: $(Pipeline.Workspace)/hello-reason
-  - script: "esy release"
-    displayName: "esy release"
-    workingDirectory: hello-reason
   - template: utils/publish-build-cache.yml
 
   # Run tests or any additional steps here
