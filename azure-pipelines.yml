@@ -1,72 +1,44 @@
-name: Build template
+name: Build npm release
+
+variables:
+  esy__ci_cache_version: v1    # this is available to all jobs in env as $ESY__CI_CACHE_VERSION or in azure config as $(esy__ci_cache_version)
 
 trigger:
   - master
-pr:
-  branches:
-    include:
-    - '*'
+  - global
+  - release-*
+  - releases-*
+  - feature-*
 
-stages:
-- stage: Build
-  jobs:
-  - job: Linux
-    pool:
-      vmImage: ubuntu-latest
-    steps:
-      - template: .ci/utils/use-node.yml
-      - template: .ci/utils/use-esy.yml
-      - script: "npm install -g pesy@next"
-        displayName: "install pesy"
-      - script: mkdir $(Pipeline.Workspace)/hello-reason
-        displayName: "Create project folder"
-      - script: "pesy --template=esy/pesy-reason-template#$(Build.SourceBranch)"
-        displayName: "Initialize pesy template"
-        workingDirectory: $(Pipeline.Workspace)/hello-reason
-      - script: "esy test"
-        displayName: "Run tests"
-        workingDirectory: $(Pipeline.Workspace)/hello-reason
+jobs:
+  - template: .ci-self/build-platform.yml
+    parameters:
+      platform: Linux
+      vmImage: ubuntu-16.04
 
-  - job: macOS
-    pool:
-      vmImage: macOS-latest
-    steps:
-      - template: .ci/utils/use-node.yml
-      - template: .ci/utils/use-esy.yml
-      - script: "npm install -g pesy@next"
-        displayName: "install pesy"
-      - script: mkdir $(Pipeline.Workspace)/hello-reason
-        displayName: "Create project folder"
-      - script: "pesy --template=esy/pesy-reason-template#$(Build.SourceBranch)"
-        displayName: "Initialize pesy template"
-        workingDirectory: $(Pipeline.Workspace)/hello-reason
-      - script: "esy test"
-        displayName: "Run tests"
-        workingDirectory: $(Pipeline.Workspace)/hello-reason
-  
-  - job: Windows
-    pool:
-      vmImage: windows-latest
-    steps:
-      - template: .ci/utils/use-node.yml
-      - template: .ci/utils/use-esy.yml
-      - script: "npm install -g pesy@next"
-        displayName: "install pesy"
-      - script: mkdir $(Pipeline.Workspace)\hello-reason
-        displayName: "Create project folder"
-      - script: "pesy --template=esy/pesy-reason-template#$(Build.SourceBranch)"
-        displayName: "Initialize pesy template"
-        workingDirectory: $(Pipeline.Workspace)\hello-reason
-      - script: "esy test"
-        displayName: "Run tests"
-        workingDirectory: $(Pipeline.Workspace)\hello-reason
-        
-schedules:
-- cron: "0 */12 * * *"
-  displayName: CRON build - twice a day
-  branches:
-    include:
-    - master
-    - releases/*
-    exclude:
-    - releases/ancient/*
+  - template: .ci-self/build-platform.yml
+    parameters:
+      platform: macOS
+      vmImage: macOS-10.13
+
+  # Need windows-2019 to do esy import/export-dependencies
+  # which assumes you have bsdtar (tar.exe) in your system
+  # otherwise it will end up using the esy-bash tar which doesn't
+  # understand drives like D:/ (thinks it's an scp path).
+  - template: .ci-self/build-platform.yml
+    parameters:
+      platform: Windows
+      vmImage: windows-2019
+
+  # This job is kept here as we want to have the platform names in the same file
+  # - job: Release
+  #   displayName: Release
+  #   dependsOn:
+  #     - Linux
+  #     - macOS
+  #     - Windows
+  #   pool:
+  #     vmImage: macOS-10.13
+  #     demands: node.js
+  #   steps:
+  #     - template: .ci-self/cross-release.yml

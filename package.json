@@ -15,6 +15,9 @@
       "ODOC_SYNTAX": "re"
     }
   },
+  "pesy": {
+    "azure-project": "esy-ocaml/esy-ocaml"
+  },
   "buildDirs": {
     "test": {
       "imports": [
