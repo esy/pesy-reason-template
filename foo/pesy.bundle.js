@@ -23148,7 +23148,8 @@ function getDownloadURL$prime(json) {
   if (match !== undefined) {
     return /* Ok */caml_chrome_debugger.variant("Ok", 0, [match.downloadUrl]);
   } else {
-    return /* Error */caml_chrome_debugger.variant("Error", 1, ["getDownloadURL(): responseObject.resource as not of the form { downloadURL: \"...\" }. Instead got\n$responseText "]);
+    var responseText = Json_bs.stringify(json);
+    return /* Error */caml_chrome_debugger.variant("Error", 1, ["getDownloadURL(): responseObject.resource as not of the form { downloadURL: \"...\" }. Instead got\n" + (String(responseText) + " ")]);
   }
 }
 
@@ -23447,7 +23448,7 @@ function run$1(projectPath) {
                                                                       })), (function (_stdout) {
                                                                     return importDependencies(path$1.join(projectPath, "cache-Darwin-install-v1"), esy);
                                                                   })), (function (param) {
-                                                                console.log(chalk.whiteBright("Running ") + chalk.bold("esy import-dependencies"));
+                                                                console.log(chalk.dim("Running ") + chalk.bold("esy import-dependencies"));
                                                                 process.stdout.write(chalk.dim(param[0]));
                                                                 process.stdout.write(chalk.dim(param[1]));
                                                                 return Bindings_bs.Rimraf.run(path$1.join(projectPath, "cache.zip"));
@@ -35276,7 +35277,7 @@ function main$prime(projectPath, template, useDefaultOptions) {
                     var match = path$1.isAbsolute(projectPath);
                     var projectPath$1 = match ? projectPath : path$1.join(process.cwd(), projectPath);
                     return Utils_bs.ResultPromise.$great$great$eq(handleEmptyDirectory(projectPath$1, useDefaultOptions), (function (param) {
-                                  return setup$1(esy, template, projectPath);
+                                  return setup$1(esy, template, projectPath$1);
                                 }));
                   })).then((function (param) {
                   if (param.tag) {

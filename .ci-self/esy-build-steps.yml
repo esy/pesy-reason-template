@@ -5,23 +5,10 @@ steps:
   - template: utils/use-esy.yml
   - script: "npm install -g pesy@next"
     displayName: "install pesy" 
-  - script: "where esy"
-    displayName: "where pesy" 
-    condition: eq(variables['Agent.OS'], 'Windows_NT')
-  - bash: "ls C:/npm/prefix"
-    displayName: "ls C:/npm/prefix/" 
-  - script: "echo $PATH"
-    displayName: "echo $PATH" 
-    condition: ne(variables['Agent.OS'], 'Windows_NT')
-  - script: "echo %PATH%"
-    displayName: "echo %PATH%" 
-    condition: eq(variables['Agent.OS'], 'Windows_NT')
   - script: "npm i"
     workingDirectory: "foo"
   - script: "node foo/pesy.bundle.js --init $(Pipeline.Workspace)/hello-reason --template=esy/pesy-reason-template#$(Build.SourceBranch)"
     displayName: "Initialize pesy template"
-  - bash: "ls $(Pipeline.Workspace)/hello-reason"
-    displayName: "Directory contents"
   - script: "esy test"
     displayName: "Test command"
     workingDirectory: $(Pipeline.Workspace)/hello-reason
