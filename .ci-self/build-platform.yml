@@ -72,15 +72,15 @@ jobs:
     condition: failed() # this will only if the main job fails
     steps:
       - task: PublishBuildArtifacts@1
-      pool:
-        vmImage: ${{ parameters.vmImage }}
-        demands: node.js  
-      displayName: 'Upload project directory'
-      # TODO: The CI Build caches are pulled down by the last successful buildID
-      # for the target branch.
-      inputs:
-          pathToPublish: '$(Pipeline.Workspace)'
-          artifactName: 'project-snapshot-$(Agent.OS)'
-          parallel: true
-          parallelCount: 8
+        pool:
+          vmImage: ${{ parameters.vmImage }}
+          demands: node.js  
+        displayName: 'Upload project directory'
+        # TODO: The CI Build caches are pulled down by the last successful buildID
+        # for the target branch.
+        inputs:
+            pathToPublish: '$(Pipeline.Workspace)'
+            artifactName: 'project-snapshot-$(Agent.OS)'
+            parallel: true
+            parallelCount: 8
   
