@@ -69,10 +69,10 @@ jobs:
       #     PathtoPublish: "_release"
       #     ArtifactName: ${{ parameters.platform }}
   - job: "Debug${{ parameters.platform }}"
+    condition: failed() # this will only if the main job fails
     pool:
       vmImage: ${{ parameters.vmImage }}
       demands: node.js
-      condition: failed() # this will only if the main job fails
     steps:
       - task: PublishBuildArtifacts@1  
         displayName: 'Upload project directory'
