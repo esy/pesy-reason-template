@@ -67,7 +67,7 @@
     "@reason-native/rely": "*",
     "@esy-ocaml/reason": "*",
     "ocaml": "~4.8.1",
-    "@pesy/esy-pesy": "0.1.0-alpha.8"
+    "@pesy/esy-pesy": "0.1.0-alpha.9"
   },
   "devDependencies": {
     "refmterr": "*",
