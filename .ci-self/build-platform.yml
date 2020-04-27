@@ -69,6 +69,7 @@ jobs:
       #     PathtoPublish: "_release"
       #     ArtifactName: ${{ parameters.platform }}
   - job: "Debug${{ parameters.platform }}"
+    dependsOn: ${{ parameters.platform }}
     condition: failed() # this will only if the main job fails
     pool:
       vmImage: ${{ parameters.vmImage }}
