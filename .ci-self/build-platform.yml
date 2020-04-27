@@ -68,7 +68,7 @@ jobs:
       #   inputs:
       #     PathtoPublish: "_release"
       #     ArtifactName: ${{ parameters.platform }}
-  - job: "Debug ${{ parameters.platform }}"
+  - job: "Debug${{ parameters.platform }}"
     pool:
       vmImage: ${{ parameters.vmImage }}
       demands: node.js
