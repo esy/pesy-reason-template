@@ -71,7 +71,8 @@ jobs:
   - job: "Debug ${{ parameters.platform }}"
     pool:
       vmImage: ${{ parameters.vmImage }}
-      demands: node.js    condition: failed() # this will only if the main job fails
+      demands: node.js
+      condition: failed() # this will only if the main job fails
     steps:
       - task: PublishBuildArtifacts@1  
         displayName: 'Upload project directory'
