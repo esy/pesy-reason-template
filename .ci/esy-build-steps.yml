@@ -9,8 +9,8 @@ steps:
   - script: "esy build --release"
     displayName: "esy build --release"
   - template: utils/create-docs.yml
-  - script: "esy test"
-    displayName: "Test command"
+  # - script: "esy test"
+  #   displayName: "Test command"
   - script: "esy release"
     displayName: "esy release"
   - template: utils/publish-build-cache.yml
