@@ -1,50 +1,21 @@
 {
   "name": "<PACKAGE_NAME_FULL>",
   "version": "0.1.0",
-  "description": "Starter Reason Esy Pesy Project",
+  "description": "Starter Reason Project",
   "esy": {
     "build": "dune build -p #{self.name}",
     "buildDev": "pesy build",
-    "NOTE": "Optional release Section. Customizes result of `esy release`",
     "release": {
       "releasedBinaries": [
         "<PACKAGE_NAME_UPPER_CAMEL>App.exe"
       ]
-    },
-    "buildEnv": {
-      "ODOC_SYNTAX": "re"
     }
   },
   "pesy": {
     "azure-project": "esy-dev/esy"
   },
   "buildDirs": {
-    "test": {
-      "imports": [
-        "Library = require('<PUBLIC_LIB_NAME>')",
-        "Rely = require('rely/lib')"
-      ],
-      "flags": [
-        "-linkall",
-        "-g",
-        "-w",
-        "-9"
-      ]
-    },
-    "testExe": {
-      "imports": [
-        "Test = require('<TEST_LIB_NAME>')"
-      ],
-      "bin": {
-        "Run<PACKAGE_NAME_UPPER_CAMEL>Tests.exe": "Run<PACKAGE_NAME_UPPER_CAMEL>Tests.re"
-      }
-    },
-    "library": {
-      "imports": [
-        "Console = require('console/lib')",
-        "Pastel = require('pastel/lib')"
-      ]
-    },
+    "library": {},
     "bin": {
       "imports": [
         "Library = require('<PUBLIC_LIB_NAME>')"
@@ -55,24 +26,15 @@
     }
   },
   "scripts": {
-    "start": "esy x <PACKAGE_NAME_UPPER_CAMEL>App.exe",
-    "test": "esy x Run<PACKAGE_NAME_UPPER_CAMEL>Tests.exe",
-    "doc": "esy dune build @doc",
-    "doc-path": "esy echo #{self.target_dir}/default/_doc/_html/index.html"
+    "start": "esy x <PACKAGE_NAME_UPPER_CAMEL>App.exe"
   },
   "dependencies": {
     "@opam/dune": "*",
-    "@reason-native/console": "*",
-    "@reason-native/pastel": "*",
-    "@reason-native/rely": "*",
     "@esy-ocaml/reason": "*",
-    "ocaml": "~4.8.1",
-    "@pesy/esy-pesy": "0.1.0-alpha.9"
+    "ocaml": "~4.8.1"
   },
   "devDependencies": {
-    "refmterr": "*",
-    "@opam/merlin": "*",
-    "ocaml": "~4.8.1",
-    "@opam/odoc": "*"
+    "@pesy/esy-pesy": "0.1.0-alpha.9",
+    "refmterr": "*"
   }
 }
