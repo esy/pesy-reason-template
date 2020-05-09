@@ -12,7 +12,8 @@
     }
   },
   "pesy": {
-    "azure-project": "esy-dev/esy"
+    "azure-project": "esy-dev/esy",
+    "github": "esy/pesy-reason-template"
   },
   "buildDirs": {
     "library": {},
