@@ -32,10 +32,10 @@
   "dependencies": {
     "@opam/dune": "*",
     "@esy-ocaml/reason": "*",
-    "ocaml": "~4.8.1"
+    "ocaml": "~4.9.0"
   },
   "devDependencies": {
-    "@pesy/esy-pesy": "0.1.0-alpha.9",
+    "@pesy/esy-pesy": "0.1.0-alpha.11",
     "refmterr": "*"
   }
 }
