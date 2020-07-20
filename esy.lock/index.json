@@ -13,12 +13,10 @@
       },
       "overrides": [],
       "dependencies": [
-        "ocaml@4.9.1000@d41d8cd9", "@opam/dune@opam:2.6.1@e1bf507c",
-        "@esy-ocaml/reason@3.6.0@d41d8cd9"
+        "ocaml@4.9.1000@d41d8cd9", "@pesy/esy-pesy@0.1.0-alpha.11@d41d8cd9",
+        "@opam/dune@opam:2.6.1@e1bf507c", "@esy-ocaml/reason@3.6.0@d41d8cd9"
       ],
-      "devDependencies": [
-        "refmterr@3.3.2@d41d8cd9", "@pesy/esy-pesy@0.1.0-alpha.11@d41d8cd9"
-      ]
+      "devDependencies": [ "refmterr@3.3.2@d41d8cd9" ]
     },
     "refmterr@3.3.2@d41d8cd9": {
       "id": "refmterr@3.3.2@d41d8cd9",
