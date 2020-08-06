@@ -21,7 +21,6 @@
       "imports": [
         "Library = require('<PUBLIC_LIB_NAME>')"
       ],
-      "ocamloptFlags": ["-verbose", "-ccopt", "--verbose"],
      "bin": {
         "<PACKAGE_NAME_UPPER_CAMEL>App": "<PACKAGE_NAME_UPPER_CAMEL>App.re"
       }
