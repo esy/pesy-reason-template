@@ -36,6 +36,8 @@
     "ocaml": "~4.9.0"
   },
   "devDependencies": {
+    "@opam/merlin": "*",
+    "@opam/ocaml-lsp-server": "ocaml/ocaml-lsp:ocaml-lsp-server.opam",
     "refmterr": "*"
   }
 }
