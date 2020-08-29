@@ -6,6 +6,7 @@
     "build": "dune build -p #{self.name}",
     "buildDev": "pesy build",
     "release": {
+      "rewritePrefix": true,
       "releasedBinaries": [
         "<PACKAGE_NAME_UPPER_CAMEL>App"
       ]
