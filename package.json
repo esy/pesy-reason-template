@@ -4,7 +4,7 @@
   "description": "Starter Reason Project",
   "esy": {
     "build": "dune build -p #{self.name}",
-    "buildDev": "pesy build",
+    "buildDev": "refmterr pesy build",
     "release": {
       "rewritePrefix": true,
       "releasedBinaries": [
