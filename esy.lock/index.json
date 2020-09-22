@@ -1,10 +1,10 @@
 {
   "checksum": "3a1eccb3f967062c0c8fe391fa4c461e",
-  "root": "test-project@link-dev:./package.json",
+  "root": "<PACKAGE_NAME_FULL>@link-dev:./package.json",
   "node": {
-    "test-project@link-dev:./package.json": {
-      "id": "test-project@link-dev:./package.json",
-      "name": "test-project",
+    "<PACKAGE_NAME_FULL>@link-dev:./package.json": {
+      "id": "<PACKAGE_NAME_FULL>@link-dev:./package.json",
+      "name": "<PACKAGE_NAME_FULL>",
       "version": "link-dev:./package.json",
       "source": {
         "type": "link-dev",
