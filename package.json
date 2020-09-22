@@ -7,7 +7,7 @@
     "buildDev": "refmterr pesy build",
     "release": {
       "rewritePrefix": true,
-      "releasedBinaries": [
+      "bin": [
         "<PACKAGE_NAME_UPPER_CAMEL>App"
       ]
     }
