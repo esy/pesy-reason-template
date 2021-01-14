@@ -34,9 +34,10 @@
     "@opam/dune": "*",
     "@esy-ocaml/reason": "*",
     "@pesy/esy-pesy": "0.1.0-alpha.13",
-    "ocaml": "~4.9.0"
+    "ocaml": "~4.10.2000"
   },
   "devDependencies": {
+    "ocaml": "4.10.2000",
     "@opam/merlin": "*",
     "@opam/ocaml-lsp-server": "ocaml/ocaml-lsp:ocaml-lsp-server.opam",
     "refmterr": "*"
