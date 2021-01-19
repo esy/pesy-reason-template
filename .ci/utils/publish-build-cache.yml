@@ -2,16 +2,19 @@
 
 steps:
   - bash: 'mkdir -p $(Build.StagingDirectory)'
+    condition: and(succeeded(), eq(variables['Build.Reason'], 'IndividualCI'))
     displayName: '[Cache][Publish] Create cache directory'
 
   # continueOnError because on windows it has a permission denied error but the
   # export succeeds.
   - script: "esy export-dependencies"
     continueOnError: true
+    condition: and(succeeded(), eq(variables['Build.Reason'], 'IndividualCI'))
     displayName: "esy export-dependencies"
     workingDirectory: $(Agent.HomeDirectory)/hello-reason
 
   - bash: pwd && ls _export/* && mv _export '$(Build.StagingDirectory)' && ls '$(Build.StagingDirectory)/_export/'
+    condition: and(succeeded(), eq(variables['Build.Reason'], 'IndividualCI'))
     displayName: '[Cache][Publish] move export to staging dir'
     workingDirectory: $(Agent.HomeDirectory)/hello-reason
 
@@ -26,6 +29,7 @@ steps:
 
   - task: PublishBuildArtifacts@1
     displayName: '[Cache][Publish] Upload tarball'
+    condition: and(succeeded(), eq(variables['Build.Reason'], 'IndividualCI'))
     # TODO: The CI Build caches are pulled down by the last successful buildID
     # for the target branch.
     inputs:
