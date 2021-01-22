@@ -11,6 +11,11 @@ steps:
     displayName: "esy export-dependencies"
     workingDirectory: $(Agent.HomeDirectory)/hello-reason
 
+  - bash: "zip -r cache.zip _export && shasum -a 256 cache.zip | awk '{ print $1 }' > checksum.txt && mv checksum.txt $(Build.StagingDirectory)"
+    continueOnError: true
+    displayName: "Computing sha256 of the zip"
+    workingDirectory: $(Agent.HomeDirectory)/hello-reason
+
   - bash: pwd && ls _export/* && mv _export '$(Build.StagingDirectory)' && ls '$(Build.StagingDirectory)/_export/'
     displayName: '[Cache][Publish] move export to staging dir'
     workingDirectory: $(Agent.HomeDirectory)/hello-reason
@@ -29,7 +34,16 @@ steps:
     # TODO: The CI Build caches are pulled down by the last successful buildID
     # for the target branch.
     inputs:
-        pathToPublish: '$(Build.StagingDirectory)'
+        pathToPublish: '$(Build.StagingDirectory)/_export'
         artifactName: 'cache-$(Agent.OS)-install-$(esy__ci_cache_version)'
+        parallel: true
+        parallelCount: 8
+
+
+  - task: PublishBuildArtifacts@1
+    displayName: '[Cache][Publish] Upload checksum'
+    inputs:
+        pathToPublish: '$(Build.StagingDirectory)/checksum.txt'
+        artifactName: 'cache-$(Agent.OS)-install-$(esy__ci_cache_version)-checksum'
         parallel: true
         parallelCount: 8
