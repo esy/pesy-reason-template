@@ -7,15 +7,24 @@ steps:
   # continueOnError because on windows it has a permission denied error but the
   # export succeeds.
   - script: "esy export-dependencies"
-    continueOnError: true
     displayName: "esy export-dependencies"
     workingDirectory: $(Agent.HomeDirectory)/hello-reason
 
   - bash: "zip -r cache.zip _export && shasum -a 256 cache.zip | awk '{ print $1 }' > checksum.txt && mv checksum.txt $(Build.StagingDirectory)"
-    continueOnError: true
     displayName: "Computing sha256 of the zip"
     workingDirectory: $(Agent.HomeDirectory)/hello-reason
+    condition: ne(variables['AGENT.OS'], 'Windows_NT')
 
+  - script: powershell.exe -nologo -noprofile -command "& { Add-Type -A 'System.IO.Compression.FileSystem'; [IO.Compression.ZipFile]::ExtractToDirectory('cache.zip', '_export'); }"
+    displayName: "[Windows] Zipping _export"
+    workingDirectory: $(Agent.HomeDirectory)/hello-reason
+    condition: eq(variables['AGENT.OS'], 'Windows_NT')
+
+  - script: "shasum -a 256 cache.zip | awk '{ print $1 }' > checksum.txt && mv checksum.txt $(Build.StagingDirectory)"
+    displayName: "[Windows] Computing sha256"
+    workingDirectory: $(Agent.HomeDirectory)/hello-reason
+    condition: eq(variables['AGENT.OS'], 'Windows_NT')
+    
   - bash: pwd && ls _export/* && mv _export '$(Build.StagingDirectory)' && ls '$(Build.StagingDirectory)/_export/'
     displayName: '[Cache][Publish] move export to staging dir'
     workingDirectory: $(Agent.HomeDirectory)/hello-reason
