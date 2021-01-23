@@ -15,7 +15,7 @@ steps:
     workingDirectory: $(Agent.HomeDirectory)/hello-reason
     condition: ne(variables['AGENT.OS'], 'Windows_NT')
 
-  - script: powershell.exe -nologo -noprofile -command "& { Add-Type -A 'System.IO.Compression.FileSystem'; [IO.Compression.ZipFile]::ExtractToDirectory('cache.zip', '_export'); }"
+  - script: powershell.exe -nologo -noprofile -command "Compress-Archive -Path _export -DestinationPath cache.zip"
     displayName: "[Windows] Zipping _export"
     workingDirectory: $(Agent.HomeDirectory)/hello-reason
     condition: eq(variables['AGENT.OS'], 'Windows_NT')
