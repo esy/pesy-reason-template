@@ -10,7 +10,7 @@ steps:
     displayName: "esy export-dependencies"
     workingDirectory: $(Agent.HomeDirectory)/hello-reason
 
-  - bash: "zip -r cache.zip _export && shasum -a 256 cache.zip | awk '{ print $1 }' > checksum.txt && mv checksum.txt $(Build.StagingDirectory)"
+  - bash: "zip -r cache.zip _export && shasum -a 256 cache.zip | awk '{ print $1 }' > checksum.txt && mv checksum.txt cache.zip $(Build.StagingDirectory)"
     displayName: "Computing sha256 of the zip"
     workingDirectory: $(Agent.HomeDirectory)/hello-reason
     condition: ne(variables['AGENT.OS'], 'Windows_NT')
@@ -20,11 +20,11 @@ steps:
     workingDirectory: $(Agent.HomeDirectory)/hello-reason
     condition: eq(variables['AGENT.OS'], 'Windows_NT')
 
-  - script: "shasum -a 256 cache.zip | awk '{ print $1 }' > checksum.txt && mv checksum.txt $(Build.StagingDirectory)"
+  - script: "shasum -a 256 cache.zip | awk '{ print $1 }' > checksum.txt && mv checksum.txt cache.zip $(Build.StagingDirectory)"
     displayName: "[Windows] Computing sha256"
     workingDirectory: $(Agent.HomeDirectory)/hello-reason
     condition: eq(variables['AGENT.OS'], 'Windows_NT')
-    
+
   - bash: pwd && ls _export/* && mv _export '$(Build.StagingDirectory)' && ls '$(Build.StagingDirectory)/_export/'
     displayName: '[Cache][Publish] move export to staging dir'
     workingDirectory: $(Agent.HomeDirectory)/hello-reason
@@ -43,7 +43,7 @@ steps:
     # TODO: The CI Build caches are pulled down by the last successful buildID
     # for the target branch.
     inputs:
-        pathToPublish: '$(Build.StagingDirectory)/_export'
+        pathToPublish: '$(Build.StagingDirectory)/cache.zip'
         artifactName: 'cache-$(Agent.OS)-install-$(esy__ci_cache_version)'
         parallel: true
         parallelCount: 8
