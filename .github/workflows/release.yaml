@@ -1,0 +1,26 @@
+name: Prepare NPM tarball
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        node_version: [14]
+        os: [macOS-latest, ubuntu-latest, windows-latest]
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v2
+      with:
+        node-version: ${{ matrix.node_version }}
+    - name: Setup scripts (npm install)
+      run: npm i
+      working-directory: scripts
+    - name: Download cache from Azure
+      run: node scripts/fetch-azure-artifacts.js
+      shell: bash
+      env:
+        GITHUB_TOKEN: ${{ secrets.TOKEN }}
