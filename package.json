@@ -14,7 +14,7 @@
   },
   "pesy": {
     "azure-project": "esy-dev/esy",
-    "template": "0.1.0-alpha.16",
+    "template": "0.1.0-alpha.18",
     "github": "esy/pesy-reason-template"
   },
   "buildDirs": {
