@@ -23,7 +23,7 @@
       "imports": [
         "Library = require('<PUBLIC_LIB_NAME>')"
       ],
-     "bin": {
+      "bin": {
         "<PACKAGE_NAME_UPPER_CAMEL>App": "<PACKAGE_NAME_UPPER_CAMEL>App.re"
       }
     }
@@ -34,7 +34,7 @@
   "dependencies": {
     "@opam/dune": "*",
     "@esy-ocaml/reason": "*",
-    "@pesy/esy-pesy": "0.1.0-alpha.13",
+    "@pesy/esy-pesy": "0.1.0-alpha.14",
     "ocaml": "~4.10.2000"
   },
   "devDependencies": {
