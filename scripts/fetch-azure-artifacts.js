@@ -181,146 +181,158 @@ function shaFile(path, algo) {
   });
 }
 
-curl(getDefinitionIDUrl)
-  .then((response) => {
-    if (response.count > 1) {
-      return Promise.reject("More than one definition IDs returned");
-    } else {
-      let {
-        value: [{ id: defintionID }],
-      } = response;
-      return curl(
-        `${restBase}/_apis/build/builds?${filter}&${branch}&${latest}&definitions=${defintionID}&api-version=4.1`
-      );
-    }
-  })
-  .then((response) => {
-    if (response.count > 1) {
-      return Promise.reject("More than one build IDs returned as 'latest'");
-    } else {
-      let {
-        value: [{ id: buildID }],
-      } = response;
-      console.log("Downloading ", artName);
+function uploadArtifact(artName, artChecksum) {
+  const octokit = github.getOctokit(process.env.GITHUB_TOKEN);
+  return octokit.repos
+    .getReleaseByTag({
+      owner,
+      repo,
+      tag: githubRef.replace("refs/tags/", ""),
+    })
+    .then((response) => {
+      if (response.status != 200) {
+        return Promise.reject(response);
+      }
+      let { upload_url } = response.data;
+      console.log(upload_url);
+      console.log(response);
+      const contentLength = (filePath) => fs.statSync(filePath).size;
+      const checksumFileHeaders = {
+        "content-type": "text/plain",
+        "content-length": contentLength(`${artChecksum}.txt`),
+      };
+      const artFileHeaders = {
+        "content-type": "application/zip",
+        "content-length": contentLength(`${artName}.zip`),
+      };
+      const artFileName = artName;
+      const checksumFileName = artChecksum;
+      const checksumFileData = fs.readFileSync(`${artChecksum}.txt`);
+      const artFileData = fs.readFileSync(`${artName}.zip`);
+      console.log("Uploading...");
+      let upload = (upload_url, headers, name, data) =>
+        octokit.repos.uploadReleaseAsset({
+          url: upload_url,
+          headers,
+          name,
+          data,
+        });
       return Promise.all([
-        curl(
-          `${restBase}/_apis/build/builds/${buildID}/artifacts?artifactName=${artName}&api-version=4.1`
-        ),
-        curl(
-          `${restBase}/_apis/build/builds/${buildID}/artifacts?artifactName=${artChecksum}&api-version=4.1`
+        upload(
+          upload_url,
+          checksumFileHeaders,
+          checksumFileName,
+          checksumFileData
+        ).then((uploadAssetResponse) => {
+          const {
+            data: { browser_download_url: browserDownloadUrl },
+          } = uploadAssetResponse;
+          console.log(browserDownloadUrl);
+        }),
+        upload(upload_url, artFileHeaders, artFileName, artFileData).then(
+          (uploadAssetResponse) => {
+            const {
+              data: { browser_download_url: browserDownloadUrl },
+            } = uploadAssetResponse;
+            console.log(browserDownloadUrl);
+          }
         ),
       ]);
-    }
-  })
-  .then(([artResponse, artChecksumResponse]) => {
-    let {
-      resource: { downloadUrl: artDownloadUrl },
-    } = artResponse;
-    let {
-      resource: { downloadUrl: artChecksumDownloadUrl },
-    } = artChecksumResponse;
-    return Promise.all([
-      new Promise(function (resolve, reject) {
-        let urlStr = artDownloadUrl;
-        let urlObj = url.parse(urlStr);
-        fetch(
-          urlStr,
-          urlObj,
-          path.join(process.cwd(), "art.zip"),
-          (err, path) => (err ? reject(err) : resolve(path))
-        );
-      }),
-      new Promise(function (resolve, reject) {
-        let urlStr = artChecksumDownloadUrl;
-        let urlObj = url.parse(urlStr);
-        fetch(
-          urlStr,
-          urlObj,
-          path.join(process.cwd(), "checksum.zip"),
-          (err, path) => (err ? reject(err) : resolve(path))
-        );
-      }),
-    ]);
-  })
-  .then(([artPath, artChecksumPath]) => {
-    childProcess.execSync(`unzip -j -o ${artPath}`);
-    childProcess.execSync(`unzip -j -o ${artChecksumPath}`);
-    console.log(artPath);
-    console.log(artChecksumPath);
-    let expectedChecksum = fs
-      .readFileSync(path.join(path.dirname(artChecksumPath), "checksum.txt"))
-      .toString()
-      .trim();
-    let cacheZip = "cache.zip";
-    let checksumTxt = "checksum.txt";
-    return shaFile(cacheZip, "sha256").then((zipFileChecksum) => {
-      if (zipFileChecksum === expectedChecksum) {
-        fs.renameSync(cacheZip, `${artName}.zip`);
-        fs.renameSync(checksumTxt, `${artChecksum}.txt`);
-        const octokit = github.getOctokit(process.env.GITHUB_TOKEN);
-        return octokit.repos
-          .getReleaseByTag({
-            owner,
-            repo,
-            tag: githubRef.replace("refs/tags/", ""),
-          })
-          .then((response) => {
-            if (response.status != 200) {
-              return Promise.reject(response);
-            }
-            let { upload_url } = response.data;
-            console.log(upload_url);
-            console.log(response);
-            const contentLength = (filePath) => fs.statSync(filePath).size;
-            const checksumFileHeaders = {
-              "content-type": "text/plain",
-              "content-length": contentLength(`${artChecksum}.txt`),
-            };
-            const artFileHeaders = {
-              "content-type": "application/zip",
-              "content-length": contentLength(`${artName}.zip`),
-            };
-            const artFileName = artName;
-            const checksumFileName = artChecksum;
-            const checksumFileData = fs.readFileSync(`${artChecksum}.txt`);
-            const artFileData = fs.readFileSync(`${artName}.zip`);
-            console.log("Uploading...");
-            let upload = (upload_url, headers, name, data) =>
-              octokit.repos.uploadReleaseAsset({
-                url: upload_url,
-                headers,
-                name,
-                data,
-              });
-            return Promise.all([
-              upload(
-                upload_url,
-                checksumFileHeaders,
-                checksumFileName,
-                checksumFileData
-              ).then((uploadAssetResponse) => {
-                const {
-                  data: { browser_download_url: browserDownloadUrl },
-                } = uploadAssetResponse;
-                console.log(browserDownloadUrl);
-              }),
-              upload(upload_url, artFileHeaders, artFileName, artFileData).then(
-                (uploadAssetResponse) => {
-                  const {
-                    data: { browser_download_url: browserDownloadUrl },
-                  } = uploadAssetResponse;
-                  console.log(browserDownloadUrl);
-                }
-              ),
-            ]);
-          });
-      } else {
-        console.log("Checksum mismatch");
-        process.exit(-1);
-      }
     });
-  })
-  .catch((error) => {
-    console.error(error);
-    process.exit(1);
-  });
+}
+
+function main() {
+  curl(getDefinitionIDUrl)
+    .then((response) => {
+      if (response.count > 1) {
+        return Promise.reject("More than one definition IDs returned");
+      } else {
+        let {
+          value: [{ id: defintionID }],
+        } = response;
+        return curl(
+          `${restBase}/_apis/build/builds?${filter}&${branch}&${latest}&definitions=${defintionID}&api-version=4.1`
+        );
+      }
+    })
+    .then((response) => {
+      if (response.count > 1) {
+        return Promise.reject("More than one build IDs returned as 'latest'");
+      } else {
+        let {
+          value: [{ id: buildID }],
+        } = response;
+        console.log("Downloading ", artName);
+        return Promise.all([
+          curl(
+            `${restBase}/_apis/build/builds/${buildID}/artifacts?artifactName=${artName}&api-version=4.1`
+          ),
+          curl(
+            `${restBase}/_apis/build/builds/${buildID}/artifacts?artifactName=${artChecksum}&api-version=4.1`
+          ),
+        ]);
+      }
+    })
+    .then(([artResponse, artChecksumResponse]) => {
+      let {
+        resource: { downloadUrl: artDownloadUrl },
+      } = artResponse;
+      let {
+        resource: { downloadUrl: artChecksumDownloadUrl },
+      } = artChecksumResponse;
+      return Promise.all([
+        new Promise(function (resolve, reject) {
+          let urlStr = artDownloadUrl;
+          let urlObj = url.parse(urlStr);
+          fetch(
+            urlStr,
+            urlObj,
+            path.join(process.cwd(), "art.zip"),
+            (err, path) => (err ? reject(err) : resolve(path))
+          );
+        }),
+        new Promise(function (resolve, reject) {
+          let urlStr = artChecksumDownloadUrl;
+          let urlObj = url.parse(urlStr);
+          fetch(
+            urlStr,
+            urlObj,
+            path.join(process.cwd(), "checksum.zip"),
+            (err, path) => (err ? reject(err) : resolve(path))
+          );
+        }),
+      ]);
+    })
+    .then(([artPath, artChecksumPath]) => {
+      childProcess.execSync(`unzip -j -o ${artPath}`);
+      childProcess.execSync(`unzip -j -o ${artChecksumPath}`);
+      console.log(artPath);
+      console.log(artChecksumPath);
+      let expectedChecksum = fs
+        .readFileSync(path.join(path.dirname(artChecksumPath), "checksum.txt"))
+        .toString()
+        .trim();
+      let cacheZip = "cache.zip";
+      let checksumTxt = "checksum.txt";
+      return shaFile(cacheZip, "sha256").then((zipFileChecksum) => {
+        if (zipFileChecksum === expectedChecksum) {
+          fs.renameSync(cacheZip, `${artName}.zip`);
+          fs.renameSync(checksumTxt, `${artChecksum}.txt`);
+          uploadArtifact(artName, artChecksum);
+        } else {
+          console.log("Checksum mismatch");
+          process.exit(-1);
+        }
+      });
+    })
+    .catch((error) => {
+      console.error(error);
+      process.exit(1);
+    });
+}
+
+// main();
+uploadArtifact(
+  "Cache-Darwin-arm64-install-v1",
+  "Cache-Darwin-arm64-install-v1-checksum"
+).then(console.log);
