@@ -4,7 +4,7 @@
   "description": "Starter Reason Project",
   "esy": {
     "build": "dune build -p #{self.name}",
-    "buildDev": "refmterr pesy build",
+    "buildDev": "pesy build",
     "release": {
       "rewritePrefix": true,
       "bin": [
@@ -33,14 +33,17 @@
   },
   "dependencies": {
     "@opam/dune": "*",
-    "@esy-ocaml/reason": "*",
-    "@pesy/esy-pesy": "0.1.0-alpha.14",
-    "ocaml": "~4.10.2000"
+    "@opam/reason": "*",
+    "@pesy/esy-pesy": "esy/pesy:package.json#270446fd9699292223cdd6b145c8178e6a19f78d",
+    "ocaml": "4.14.x"
   },
   "devDependencies": {
-    "ocaml": "4.10.2000",
     "@opam/merlin": "*",
-    "@opam/ocaml-lsp-server": "*",
-    "refmterr": "*"
+    "@opam/ocaml-lsp-server": "*"
+  },
+  "resolutions": {
+    "@opam/console": "git+https://github.com/reasonml/reason-native.git:console.opam#aec0ac68",
+    "@opam/pastel": "git+https://github.com/reasonml/reason-native.git:pastel.opam#aec0ac68",
+    "@opam/num": "opam:1.4"
   }
 }
